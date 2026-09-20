@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\GuesthouseBookingRequest;
+use App\Models\SiteSetting;
 use App\Models\TransferBooking;
 
 class BookingTelegramNotifier
@@ -38,7 +39,7 @@ class BookingTelegramNotifier
             "Your booking reference is {$booking->reference}. ".
             'We are checking availability and the best rate for you.';
 
-        $this->telegram->send(config('services.telegram.transfer_chat_id'), $message, [
+        $this->telegram->send(SiteSetting::configuredValue('telegram_transfer_chat_id', config('services.telegram.transfer_chat_id')), $message, [
             [
                 ['text' => '💬 WhatsApp Customer', 'url' => $booking->whatsappUrl($whatsappMessage)],
                 ['text' => '⚙️ Open Booking', 'url' => config('app.url')."/admin/transfer-bookings/{$booking->id}/edit"],
@@ -71,7 +72,7 @@ class BookingTelegramNotifier
             "Your reference is {$booking->reference}. ".
             'We are checking the best available rate for your dates.';
 
-        $this->telegram->send(config('services.telegram.guesthouse_chat_id'), $message, [
+        $this->telegram->send(SiteSetting::configuredValue('telegram_guesthouse_chat_id', config('services.telegram.guesthouse_chat_id')), $message, [
             [
                 ['text' => '💬 WhatsApp Guest', 'url' => $booking->whatsappUrl($whatsappMessage)],
                 ['text' => '⚙️ Open Request', 'url' => config('app.url')."/admin/guesthouse-booking-requests/{$booking->id}/edit"],

@@ -2,16 +2,17 @@
 
 namespace App\Services;
 
+use App\Models\SiteSetting;
 use Illuminate\Support\Facades\Http;
 
 class TelegramService
 {
     public function send(
-        string|int $chatId,
+        string|int|null $chatId,
         string $message,
         array $buttons = []
     ): void {
-        $token = config('services.telegram.bot_token');
+        $token = SiteSetting::configuredValue('telegram_bot_token', config('services.telegram.bot_token'));
 
         if (! $token || ! $chatId) {
             return;

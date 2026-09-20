@@ -148,6 +148,15 @@ class DestinationDirectoryTest extends TestCase
         $this->get('/')->assertOk()->assertSee('googletagmanager.com/gtag/js?id=G-TEST123', false);
     }
 
+    public function test_integration_settings_store_telegram_tokens_encrypted(): void
+    {
+        $setting = SiteSetting::where('key', 'telegram_bot_token')->firstOrFail();
+        $setting->update(['secret_value' => '123456:secret-token', 'active' => true]);
+
+        $this->assertSame('123456:secret-token', SiteSetting::configuredValue('telegram_bot_token'));
+        $this->assertNotSame('123456:secret-token', \DB::table('site_settings')->where('key', 'telegram_bot_token')->value('secret_value'));
+    }
+
     public function test_transfer_and_guesthouse_booking_requests_still_save(): void
     {
         $travelDate = now()->addDay();
