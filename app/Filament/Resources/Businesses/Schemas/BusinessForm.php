@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Businesses\Schemas;
 
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -37,9 +38,13 @@ class BusinessForm
                 TimePicker::make('closing_time'),
                 TextInput::make('price_range'),
                 FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('businesses'),
                 FileUpload::make('cover_image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('businesses/covers'),
                 Toggle::make('delivery_available')
                     ->required(),
                 Toggle::make('takeaway_available')
@@ -48,6 +53,9 @@ class BusinessForm
                     ->required(),
                 Toggle::make('featured')
                     ->required(),
+                TextInput::make('featured_order')->numeric()->default(0),
+                DateTimePicker::make('featured_from')->seconds(false),
+                DateTimePicker::make('featured_until')->seconds(false),
                 Toggle::make('active')
                     ->required(),
                 TextInput::make('latitude')

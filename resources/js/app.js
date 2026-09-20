@@ -29,3 +29,19 @@ const updateHeader = () => header?.classList.toggle('is-scrolled', window.scroll
 window.addEventListener('scroll', updateHeader, { passive: true });
 window.addEventListener('resize', () => positionIndicator(navigation?.querySelector('.is-active')));
 updateHeader();
+
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+const observedAds = document.querySelectorAll('[data-ad-impression]');
+if (observedAds.length && 'IntersectionObserver' in window) {
+    const adObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        const storageKey = `ad-viewed:${element.dataset.adKey}`;
+        if (!sessionStorage.getItem(storageKey)) {
+            sessionStorage.setItem(storageKey, '1');
+            fetch(element.dataset.adImpression, { method: 'POST', credentials: 'same-origin', headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json' } }).catch(() => sessionStorage.removeItem(storageKey));
+        }
+        adObserver.unobserve(element);
+    }), { threshold: .5 });
+    observedAds.forEach((advertisement) => adObserver.observe(advertisement));
+}

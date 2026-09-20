@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Transfers\Schemas;
 
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
@@ -46,6 +47,10 @@ class TransferForm
                     ->numeric(),
                 Textarea::make('notes')
                     ->columnSpanFull(),
+                Toggle::make('featured')->required(),
+                TextInput::make('featured_order')->numeric()->default(0),
+                DateTimePicker::make('featured_from')->seconds(false),
+                DateTimePicker::make('featured_until')->seconds(false),
                 Toggle::make('active')
                     ->required(),
             ]);

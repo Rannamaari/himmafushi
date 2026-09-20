@@ -21,6 +21,8 @@ class TransferScheduleSeeder extends Seeder
         foreach ($services as $service) {
             Transfer::query()->updateOrCreate(['slug' => $service['slug']], $service + ['active' => true]);
         }
+
+        Transfer::query()->where('slug', 'naseeb-himmafushi-airport-0800')->update(['featured' => true, 'featured_order' => 60]);
     }
 
     private function naseebServices(array $saturdayToThursday, array $everyDay): array

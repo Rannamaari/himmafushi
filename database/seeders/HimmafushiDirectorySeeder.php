@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Activity;
+use App\Models\Advertisement;
 use App\Models\Business;
 use App\Models\BusinessCategory;
 use App\Models\Deal;
@@ -84,8 +85,27 @@ class HimmafushiDirectorySeeder extends Seeder
             'short_description' => 'Diving experiences available through local Himmafushi operators.',
             'image' => 'demos/activity-demo.png',
             'featured' => true,
+            'featured_order' => 80,
             'active' => true,
             'booking_available' => false,
+        ]);
+
+        Advertisement::query()->updateOrCreate(['placement' => 'home_search_sponsor', 'advertiser' => 'Moscow Traders'], [
+            'headline' => 'Your local island shop',
+            'destination_url' => '/shops/moscow-traders',
+            'priority' => 100,
+            'active' => true,
+        ]);
+
+        Advertisement::query()->updateOrCreate(['placement' => 'home_after_blog', 'advertiser' => 'Moscow Traders'], [
+            'headline' => 'Island essentials, close at hand',
+            'copy' => 'Find groceries, snacks and everyday travel essentials locally in Himmafushi.',
+            'image' => 'demos/shop-demo.png',
+            'mobile_image' => 'demos/shop-demo.png',
+            'cta_label' => 'Visit Moscow Traders',
+            'destination_url' => '/shops/moscow-traders',
+            'priority' => 100,
+            'active' => true,
         ]);
     }
 }

@@ -1,13 +1,86 @@
-<x-layouts.app title="Himmafushi | Stay. Eat. Shop. Explore." description="Everything you need to experience Himmafushi, Maldives.">
-    <section class="hero" style="background-image: linear-gradient(90deg, rgba(6, 31, 38, .78), rgba(6, 31, 38, .16)), url('{{ asset('images/himmafushi-hero.png') }}')">
-        <div class="page-shell hero-content"><p class="eyebrow light">Maldives, made local</p><h1>HIMMAFUSHI</h1><p class="hero-tagline">Stay. Eat. Shop. Explore.</p><p class="hero-copy">Everything you need to experience Himmafushi, Maldives.</p><div class="hero-actions"><a class="button button-light" href="#discover">Explore Himmafushi</a><a class="button button-outline-light" href="{{ route('guesthouses.index') }}">Plan Your Stay</a></div></div>
+<x-layouts.app title="Himmafushi | Stay. Eat. Shop. Explore." description="Discover stays, experiences, transfers, food and local stories from Himmafushi, Maldives.">
+    <section class="hero home-hero" style="background-image: linear-gradient(90deg, rgba(6, 31, 38, .8), rgba(6, 31, 38, .12)), url('{{ asset('images/himmafushi-hero.png') }}')">
+        <div class="page-shell hero-content">
+            <p class="eyebrow light">Maldives, made local</p>
+            <h1>HIMMAFUSHI</h1>
+            <p class="hero-tagline">Stay. Eat. Shop. Explore.</p>
+            <p class="hero-copy">Your local guide to island stays, ocean adventures and the easiest way to get here.</p>
+            <div class="hero-actions"><a class="button button-light" href="#discover">Discover the island</a><a class="button button-outline-light" href="{{ route('transfers.index') }}">Plan your transfer</a></div>
+        </div>
     </section>
-    <section id="discover" class="search-band"><div class="page-shell"><form class="discovery-search" method="GET" action="{{ route('search') }}"><label for="q">What are you looking for in Himmafushi?</label><div><input id="q" name="q" placeholder="Search stays, food, shops and more"><button class="button" type="submit">Search</button></div></form><div class="category-grid"><a href="{{ route('guesthouses.index') }}">Stay<span>Guesthouses</span></a><a href="{{ route('restaurants.index') }}">Eat<span>Restaurants</span></a><a href="{{ route('transfers.index') }}">Ride<span>Transfers</span></a><a href="{{ route('activities.index') }}">Play<span>Things To Do</span></a><a href="{{ route('shops.index') }}">Shop<span>Shops</span></a><a href="{{ route('wellness.index') }}">Rest<span>Spa & Wellness</span></a><a href="{{ route('barbers.index') }}">Style<span>Barbers & Salons</span></a><a href="{{ route('deals.index') }}">Save<span>Deals</span></a></div></div></section>
-    <section class="section"><div class="page-shell"><x-section-heading eyebrow="At a glance" title="Today in Himmafushi" description="A simple starting point for planning your day on the island."/><div class="today-grid"><a href="{{ route('transfers.index') }}"><strong>{{ $transfers->isNotEmpty() ? 'Next Transfers' : 'Transfers' }}</strong><span>{{ $transfers->isNotEmpty() ? 'View active schedules' : 'Check transfer options' }}</span></a><a href="{{ route('guesthouses.index') }}"><strong>Places to Stay</strong><span>{{ $guesthouses->isNotEmpty() ? 'Featured island stays' : 'Browse accommodation requests' }}</span></a><a href="{{ route('restaurants.index') }}"><strong>Places to Eat</strong><span>{{ $restaurants->isNotEmpty() ? 'Featured local dining' : 'Discover local food soon' }}</span></a><a href="{{ route('activities.index') }}"><strong>Things To Do</strong><span>{{ $activities->isNotEmpty() ? 'Explore the island' : 'Experiences coming soon' }}</span></a><a href="{{ route('deals.index') }}"><strong>Today's Deals</strong><span>{{ $deals->isNotEmpty() ? 'See available offers' : 'Offers are coming soon' }}</span></a></div></div></section>
-    <section class="section section-tint"><div class="page-shell"><div class="section-row"><x-section-heading eyebrow="Getting here" title="Getting to Himmafushi" description="Scheduled transfer options managed by local operators."/><a class="text-link" href="{{ route('transfers.index') }}">View all transfers</a></div><div class="transfer-grid">@forelse($transfers as $transfer)<article class="transfer-card"><p>{{ $transfer->type ? str_replace('_', ' ', $transfer->type) : 'Transfer' }}</p><h3>{{ $transfer->from_location }} to {{ $transfer->to_location }}</h3><dl><div><dt>Departure</dt><dd>{{ $transfer->departure_time?->format('H:i') ?: 'On request' }}</dd></div><div><dt>Duration</dt><dd>{{ $transfer->duration_minutes ? $transfer->duration_minutes.' min' : 'Ask operator' }}</dd></div></dl><div class="price-row">@if($transfer->local_price)<span>Local: MVR {{ number_format($transfer->local_price, 0) }}</span>@endif @if($transfer->tourist_price)<span>Guest: {{ $transfer->tourist_currency }} {{ number_format($transfer->tourist_price, 0) }}</span>@endif</div><a class="button button-small" href="{{ route('transfers.book', $transfer) }}">Book Transfer</a></article>@empty<x-empty-state title="Transfer schedules are being added" message="Request a transfer when options become available." />@endforelse</div></div></section>
-    <section class="section"><div class="page-shell"><div class="section-row"><x-section-heading eyebrow="Island stays" title="Stay in Himmafushi" description="From budget-friendly stays to comfortable island escapes."/><a class="text-link" href="{{ route('guesthouses.index') }}">View all guesthouses</a></div><div class="card-grid">@forelse($guesthouses as $guesthouse)<article class="listing-card"><div class="listing-image">@if($guesthouse->image)<img src="{{ asset('storage/'.$guesthouse->image) }}" alt="{{ $guesthouse->name }}" loading="lazy">@else<span>Himmafushi stay</span>@endif</div><div class="listing-body">@if($guesthouse->featured)<p class="eyebrow">Featured</p>@endif<h3>{{ $guesthouse->name }}</h3><p>{{ $guesthouse->description ?: 'Request the best available rate directly through Himmafushi.' }}</p><div class="card-meta">{{ $guesthouse->address ?: 'Himmafushi' }}</div><div class="price-row">@if($guesthouse->local_rate_from)<span>Local from MVR {{ number_format($guesthouse->local_rate_from, 0) }}</span>@endif @if($guesthouse->tourist_rate_from)<span>Guest from USD {{ number_format($guesthouse->tourist_rate_from, 0) }}</span>@endif @if(!$guesthouse->local_rate_from && !$guesthouse->tourist_rate_from)<span>Request Rate</span>@endif</div><a class="text-link" href="{{ route('guesthouses.show', $guesthouse) }}">View Guesthouse</a></div></article>@empty<x-empty-state title="Island stays are being added" message="Browse again soon for local guesthouse options." />@endforelse</div></div></section>
-    <section class="section section-tint"><div class="page-shell"><div class="section-row"><x-section-heading eyebrow="Local dining" title="Eat in Himmafushi" description="Discover local favourites, cafes and island dining."/><a class="text-link" href="{{ route('restaurants.index') }}">Explore restaurants</a></div><div class="card-grid">@forelse($restaurants as $business)<x-business-card :business="$business" />@empty<x-empty-state title="Restaurants are being added" message="We’re adding Himmafushi’s best local restaurants. Check back soon." />@endforelse</div></div></section>
-    <section class="section"><div class="page-shell"><div class="section-row"><x-section-heading eyebrow="On the water and beyond" title="Things To Do" description="Find island experiences as local operators add them."/><a class="text-link" href="{{ route('activities.index') }}">View activities</a></div><div class="category-grid activity-grid"><a href="{{ route('activities.index') }}">Surf<span>Surfing</span></a><a href="{{ route('activities.index') }}">Sea<span>Snorkeling</span></a><a href="{{ route('activities.index') }}">Dive<span>Diving</span></a><a href="{{ route('activities.index') }}">Trip<span>Sandbank trips</span></a></div></div></section>
-    <section class="section section-dark"><div class="page-shell"><div class="section-row"><x-section-heading eyebrow="Worth knowing" title="Deals in Himmafushi" description="Offers for locals, residents and international guests."/><a class="text-link light" href="{{ route('deals.index') }}">View all deals</a></div><div class="card-grid">@forelse($deals as $deal)<article class="deal-card"><p class="eyebrow light">{{ $deal->customer_type === 'all' ? 'All visitors' : ucfirst($deal->customer_type).' offer' }}</p><h3>{{ $deal->title }}</h3><p>{{ $deal->description }}</p>@if($deal->deal_price)<strong>{{ $deal->currency }} {{ number_format($deal->deal_price, 0) }}</strong>@endif</article>@empty<x-empty-state title="No current deals" message="Local offers will appear here when businesses publish them." />@endforelse</div></div></section>
-    <section class="section"><div class="page-shell"><x-site.newsletter-signup /></div></section>
+
+    <section id="discover" class="home-search-section">
+        <div class="page-shell home-search-wrap">
+            <form class="home-search" method="GET" action="{{ route('search') }}">
+                <label for="home-search-input">What are you looking for in Himmafushi?</label>
+                <div><input id="home-search-input" name="q" placeholder="Search stays, food, shops, activities and more" required><button class="button" type="submit">Search</button></div>
+            </form>
+            <x-ad-slot position="home_search_sponsor" compact />
+        </div>
+    </section>
+
+    @if($featuredItems->isNotEmpty())
+        <section class="home-section featured-marquee-section" aria-labelledby="featured-heading">
+            <div class="page-shell home-section-heading"><div><p class="eyebrow">Curated for your visit</p><h2 id="featured-heading">Featured in Himmafushi</h2><p>Island experiences, local favourites and timely offers worth knowing about.</p></div><a class="text-link" href="{{ route('activities.index') }}">Explore things to do</a></div>
+            <div class="featured-marquee" aria-label="Featured places and experiences">
+                <div class="featured-marquee-track">
+                    @foreach([false, true] as $duplicate)
+                        <div class="featured-marquee-set" @if($duplicate) aria-hidden="true" @endif>
+                            @foreach($featuredItems as $item)
+                                <article class="featured-card">
+                                    <a class="featured-card-image" href="{{ $item['url'] }}" @if($duplicate) tabindex="-1" @endif>
+                                        <img src="{{ $item['image'] ? asset('storage/'.$item['image']) : asset('images/himmafushi-hero.png') }}" alt="{{ $duplicate ? '' : $item['title'] }}" width="640" height="800" loading="lazy">
+                                        <span class="feature-badge">{{ $item['badge'] }}</span>
+                                    </a>
+                                    <div class="featured-card-body"><p>{{ $item['type'] }}</p><h3>{{ $item['title'] }}</h3>@if($item['summary'])<span>{{ str($item['summary'])->limit(88) }}</span>@endif<div>@if($item['price'])<strong>From {{ $item['price'] }}</strong>@else<span>Discover locally</span>@endif<a href="{{ $item['url'] }}" @if($duplicate) tabindex="-1" @endif>{{ $item['cta'] }} <span aria-hidden="true">→</span></a></div></div>
+                                </article>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <section class="home-section travel-section" aria-labelledby="travel-heading">
+        <div class="page-shell travel-layout">
+            <div class="travel-intro"><p class="eyebrow light">Arrive with confidence</p><h2 id="travel-heading">Getting to Himmafushi</h2><p>Himmafushi is reached by sea from Velana International Airport and Male. Choose your travel date to see the services running that day.</p><a class="button" href="{{ route('transfers.index') }}">Book Your Transfer <span aria-hidden="true">→</span></a></div>
+            <div class="travel-options">
+                @forelse($transfers->take(3) as $transfer)
+                    <article class="travel-option"><span>{{ $loop->iteration < 10 ? '0'.$loop->iteration : $loop->iteration }}</span><div><p>{{ str_replace('_', ' ', $transfer->type ?: 'Speedboat transfer') }}</p><h3>{{ $transfer->from_location }} <span aria-hidden="true">→</span> {{ $transfer->to_location }}</h3><dl><div><dt>Departure</dt><dd>{{ $transfer->departure_time?->format('H:i') ?: 'On request' }}</dd></div><div><dt>Travel time</dt><dd>{{ $transfer->duration_minutes ? $transfer->duration_minutes.' min' : 'Confirm when booking' }}</dd></div></dl>@if($transfer->tourist_price)<strong>Guest fare {{ $transfer->tourist_currency }} {{ number_format($transfer->tourist_price, 0) }}</strong>@endif</div></article>
+                @empty
+                    <article class="travel-option"><span>01</span><div><p>Travel planning</p><h3>Airport and Male transfers</h3><p>Choose your travel date to request the next available service.</p></div></article>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
+    @if($guesthouses->isNotEmpty())
+        <section class="home-section stays-section" aria-labelledby="stays-heading">
+            <div class="page-shell home-section-heading"><div><p class="eyebrow">Sleep close to the sea</p><h2 id="stays-heading">Featured Guesthouses in Himmafushi</h2><p>Locally hosted stays selected for more visibility, rotated fairly within each placement level.</p></div><a class="text-link" href="{{ route('guesthouses.index') }}">View all guesthouses</a></div>
+            <div class="page-shell stay-carousel">
+                @foreach($guesthouses as $guesthouse)
+                    <article class="stay-card">
+                        <a class="stay-card-image" href="{{ route('guesthouses.show', $guesthouse) }}"><img src="{{ $guesthouse->image ? asset('storage/'.$guesthouse->image) : asset('images/himmafushi-hero.png') }}" alt="{{ $guesthouse->name }} in Himmafushi" width="720" height="520" loading="lazy"><span class="feature-badge">Featured stay</span></a>
+                        <div class="stay-card-body"><p>{{ $guesthouse->address ?: 'Himmafushi, Maldives' }}</p><h3>{{ $guesthouse->name }}</h3><span>{{ str($guesthouse->description ?: 'A locally hosted island stay with direct booking requests.')->limit(105) }}</span><div class="stay-card-rate">@if($guesthouse->tourist_rate_from)<strong>From USD {{ number_format($guesthouse->tourist_rate_from, 0) }}</strong>@elseif($guesthouse->local_rate_from)<strong>From MVR {{ number_format($guesthouse->local_rate_from, 0) }}</strong>@else<strong>Request best rate</strong>@endif</div><div class="stay-card-actions"><a class="text-link" href="{{ route('guesthouses.show', $guesthouse) }}">View Stay</a><a class="button button-small" href="{{ route('guesthouses.request', $guesthouse) }}">Request / Book</a></div></div>
+                    </article>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    @if($articles->isNotEmpty())
+        <section class="home-section stories-section" aria-labelledby="stories-heading">
+            <div class="page-shell home-section-heading"><div><p class="eyebrow">Island notes</p><h2 id="stories-heading">Discover Himmafushi</h2><p>Recent guides and stories to help you travel thoughtfully and make more of your stay.</p></div><a class="text-link" href="{{ route('news.index') }}">Read all stories</a></div>
+            <div class="page-shell story-grid">
+                @foreach($articles as $article)
+                    <article class="story-card"><a class="story-card-image" href="{{ route('news.show', $article) }}"><img src="{{ $article->image ? asset('storage/'.$article->image) : asset('images/himmafushi-hero.png') }}" alt="{{ $article->title }}" width="720" height="480" loading="lazy"></a><div><p>Himmafushi guide · {{ $article->published_at->format('j M Y') }}</p><h3><a href="{{ route('news.show', $article) }}">{{ $article->title }}</a></h3><span>{{ str($article->excerpt)->limit(125) }}</span><a class="text-link" href="{{ route('news.show', $article) }}">Read More</a></div></article>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    <section class="home-ad-section"><div class="page-shell"><x-ad-slot position="home_after_blog" /></div></section>
+
+    <section class="home-section home-newsletter"><div class="page-shell"><x-site.newsletter-signup /></div></section>
 </x-layouts.app>

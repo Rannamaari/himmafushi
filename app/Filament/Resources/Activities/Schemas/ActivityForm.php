@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Activities\Schemas;
 
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -33,10 +34,15 @@ class ActivityForm
                 TextInput::make('duration_minutes')
                     ->numeric(),
                 FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('activities'),
                 TextInput::make('whatsapp'),
                 Toggle::make('featured')
                     ->required(),
+                TextInput::make('featured_order')->numeric()->default(0),
+                DateTimePicker::make('featured_from')->seconds(false),
+                DateTimePicker::make('featured_until')->seconds(false),
                 Toggle::make('active')
                     ->required(),
                 Toggle::make('booking_available')

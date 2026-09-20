@@ -74,11 +74,12 @@ class SearchController extends Controller
     {
         $route = match ($business->category->slug) {
             'restaurant' => 'restaurants.show',
+            'shop' => 'shops.show',
             'wellness' => 'wellness.show',
             'barber' => 'barbers.show',
-            default => 'shops.show',
+            default => null,
         };
 
-        return route($route, $business);
+        return $route ? route($route, $business) : route('activities.index');
     }
 }

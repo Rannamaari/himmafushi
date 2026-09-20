@@ -12,12 +12,12 @@ class Business extends Model
     protected $fillable = [
         'business_category_id', 'name', 'slug', 'short_description', 'description', 'phone', 'whatsapp', 'email', 'address',
         'opening_time', 'closing_time', 'price_range', 'image', 'cover_image', 'delivery_available', 'takeaway_available',
-        'dine_in_available', 'featured', 'active', 'latitude', 'longitude',
+        'dine_in_available', 'featured', 'featured_order', 'featured_from', 'featured_until', 'active', 'latitude', 'longitude',
     ];
 
     protected function casts(): array
     {
-        return ['opening_time' => 'datetime:H:i', 'closing_time' => 'datetime:H:i', 'delivery_available' => 'boolean', 'takeaway_available' => 'boolean', 'dine_in_available' => 'boolean', 'featured' => 'boolean', 'active' => 'boolean'];
+        return ['opening_time' => 'datetime:H:i', 'closing_time' => 'datetime:H:i', 'delivery_available' => 'boolean', 'takeaway_available' => 'boolean', 'dine_in_available' => 'boolean', 'featured' => 'boolean', 'featured_from' => 'datetime', 'featured_until' => 'datetime', 'active' => 'boolean'];
     }
 
     public function category(): BelongsTo
@@ -48,6 +48,13 @@ class Business extends Model
     public function scopeInCategory(Builder $query, string $slug): Builder
     {
         return $query->whereHas('category', fn (Builder $category) => $category->where('slug', $slug)->where('active', true));
+    }
+
+    public function scopeCurrentlyFeatured(Builder $query): Builder
+    {
+        return $query->public()->where('featured', true)
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_from')->orWhere('featured_from', '<=', now()))
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_until')->orWhere('featured_until', '>=', now()));
     }
 
     public function whatsappUrl(string $message = ''): ?string

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Guesthouses\Schemas;
 
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -36,6 +37,9 @@ class GuesthouseForm
                     ->numeric(),
                 Toggle::make('featured')
                     ->required(),
+                TextInput::make('featured_priority')->numeric()->default(0),
+                DateTimePicker::make('featured_start_at')->seconds(false),
+                DateTimePicker::make('featured_end_at')->seconds(false),
                 Toggle::make('active')
                     ->required(),
             ]);

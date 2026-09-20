@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DirectoryController;
+use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\GuesthouseBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -15,6 +16,8 @@ use App\Models\Transfer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::post('/advertisements/{advertisement}/impression', [AdvertisementController::class, 'impression'])->middleware('throttle:60,1')->name('ads.impression');
+Route::get('/advertisements/{advertisement}/click', [AdvertisementController::class, 'click'])->middleware('throttle:60,1')->name('ads.click');
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{article:slug}', [NewsController::class, 'show'])->name('news.show');

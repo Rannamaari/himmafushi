@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Business;
 use App\Models\BusinessCategory;
+use App\Models\Advertisement;
+use App\Models\Activity;
 use App\Models\Article;
 use App\Models\Deal;
 use App\Models\Guesthouse;
@@ -67,6 +69,25 @@ class DestinationDirectoryTest extends TestCase
         Deal::create(['guesthouse_id' => $guesthouse->id, 'title' => 'Expired offer', 'slug' => 'wave-expired-offer', 'active' => true, 'ends_at' => now()->subDay()]);
 
         $this->get(route('guesthouses.show', $guesthouse))->assertOk()->assertSee('Stay three nights, save 10%')->assertSee('USD 270')->assertDontSee('Expired offer');
+    }
+
+    public function test_homepage_shows_current_featured_content_and_hides_future_advertisements(): void
+    {
+        Activity::create(['name' => 'Lagoon Snorkeling', 'slug' => 'lagoon-snorkeling', 'short_description' => 'A guided lagoon trip.', 'featured' => true, 'featured_order' => 10, 'active' => true]);
+        Advertisement::create(['advertiser' => 'Visible Sponsor', 'placement' => 'home_search_sponsor', 'destination_url' => '/shops', 'active' => true]);
+        Advertisement::create(['advertiser' => 'Future Sponsor', 'placement' => 'home_after_blog', 'starts_at' => now()->addDay(), 'active' => true]);
+
+        $this->get('/')->assertOk()->assertSee('Featured in Himmafushi')->assertSee('Lagoon Snorkeling')->assertSee('Visible Sponsor')->assertDontSee('Future Sponsor');
+    }
+
+    public function test_advertisement_tracking_records_impressions_and_clicks(): void
+    {
+        $advertisement = Advertisement::create(['advertiser' => 'Island Sponsor', 'placement' => 'home_after_blog', 'destination_url' => '/shops', 'active' => true]);
+
+        $this->post(route('ads.impression', $advertisement))->assertNoContent();
+        $this->get(route('ads.click', $advertisement))->assertRedirect('/shops');
+
+        $this->assertDatabaseHas('advertisements', ['id' => $advertisement->id, 'impressions' => 1, 'clicks' => 1]);
     }
 
     public function test_published_news_and_consented_newsletter_signups_are_publicly_available(): void

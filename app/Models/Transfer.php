@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -20,6 +21,10 @@ class Transfer extends Model
         'tourist_currency',
         'duration_minutes',
         'notes',
+        'featured',
+        'featured_order',
+        'featured_from',
+        'featured_until',
         'active',
     ];
 
@@ -29,6 +34,9 @@ class Transfer extends Model
             'departure_time' => 'datetime:H:i',
             'operating_days' => 'array',
             'active' => 'boolean',
+            'featured' => 'boolean',
+            'featured_from' => 'datetime',
+            'featured_until' => 'datetime',
             'local_price' => 'decimal:2',
             'tourist_price' => 'decimal:2',
         ];
@@ -37,5 +45,12 @@ class Transfer extends Model
     public function bookings(): HasMany
     {
         return $this->hasMany(TransferBooking::class);
+    }
+
+    public function scopeCurrentlyFeatured(Builder $query): Builder
+    {
+        return $query->where('active', true)->where('featured', true)
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_from')->orWhere('featured_from', '<=', now()))
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_until')->orWhere('featured_until', '>=', now()));
     }
 }

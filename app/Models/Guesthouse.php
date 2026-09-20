@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -18,6 +19,9 @@ class Guesthouse extends Model
         'local_rate_from',
         'tourist_rate_from',
         'featured',
+        'featured_priority',
+        'featured_start_at',
+        'featured_end_at',
         'active',
     ];
 
@@ -25,6 +29,8 @@ class Guesthouse extends Model
     {
         return [
             'featured' => 'boolean',
+            'featured_start_at' => 'datetime',
+            'featured_end_at' => 'datetime',
             'active' => 'boolean',
             'local_rate_from' => 'decimal:2',
             'tourist_rate_from' => 'decimal:2',
@@ -39,5 +45,12 @@ class Guesthouse extends Model
     public function deals(): HasMany
     {
         return $this->hasMany(Deal::class);
+    }
+
+    public function scopeCurrentlyFeatured(Builder $query): Builder
+    {
+        return $query->where('active', true)->where('featured', true)
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_start_at')->orWhere('featured_start_at', '<=', now()))
+            ->where(fn (Builder $dates) => $dates->whereNull('featured_end_at')->orWhere('featured_end_at', '>=', now()));
     }
 }

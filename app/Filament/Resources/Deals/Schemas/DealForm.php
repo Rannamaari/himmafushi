@@ -39,6 +39,9 @@ class DealForm
                 DateTimePicker::make('ends_at'),
                 Toggle::make('featured')
                     ->required(),
+                TextInput::make('featured_order')->numeric()->default(0),
+                DateTimePicker::make('featured_from')->seconds(false),
+                DateTimePicker::make('featured_until')->seconds(false),
                 Toggle::make('active')
                     ->required(),
             ]);
