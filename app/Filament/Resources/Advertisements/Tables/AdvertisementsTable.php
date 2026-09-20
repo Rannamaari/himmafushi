@@ -15,7 +15,7 @@ class AdvertisementsTable
     public static function configure(Table $table): Table
     {
         return $table->defaultSort('priority', 'desc')->columns([
-            TextColumn::make('advertiser')->searchable(), TextColumn::make('placement')->badge()->searchable(),
+            TextColumn::make('advertiser')->searchable(), TextColumn::make('ad_type')->label('Type')->badge(), TextColumn::make('placement')->badge()->searchable(),
             TextColumn::make('headline')->searchable()->limit(35), TextColumn::make('priority')->numeric()->sortable(),
             TextColumn::make('starts_at')->dateTime()->sortable(), TextColumn::make('ends_at')->dateTime()->sortable(),
             TextColumn::make('impressions')->numeric()->sortable(), TextColumn::make('clicks')->numeric()->sortable(),

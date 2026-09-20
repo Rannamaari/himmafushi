@@ -16,6 +16,7 @@ class AdvertisementForm
     {
         return $schema->components([
             TextInput::make('advertiser')->required(),
+            Select::make('ad_type')->label('Advertisement type')->options(['banner' => 'Image banner', 'adsense' => 'Google AdSense / embed code'])->default('banner')->required(),
             Select::make('placement')->options([
                 'home_search_sponsor' => 'Homepage search sponsor',
                 'home_after_blog' => 'Homepage after blog',
@@ -33,7 +34,7 @@ class AdvertisementForm
             FileUpload::make('mobile_image')->label('Mobile image')->image()->disk('public')->directory('advertisements'),
             TextInput::make('cta_label'),
             TextInput::make('destination_url')->maxLength(2048)->columnSpanFull(),
-            Textarea::make('embed_code')->label('AdSense / embed code')->rows(9)->columnSpanFull()->helperText('Paste trusted ad code here. For Google AdSense setup, use the Global AdSense head tag placement.'),
+            Textarea::make('embed_code')->label('AdSense / embed code')->rows(9)->columnSpanFull()->helperText('For an AdSense ad unit, paste the trusted <ins> and script code supplied by Google.'),
             TextInput::make('priority')->numeric()->default(0)->required(),
             DateTimePicker::make('starts_at')->seconds(false),
             DateTimePicker::make('ends_at')->seconds(false),

@@ -5,12 +5,14 @@ namespace Tests\Feature;
 use App\Models\Activity;
 use App\Models\Advertisement;
 use App\Models\Article;
+use App\Models\ArticleCategory;
 use App\Models\Business;
 use App\Models\BusinessCategory;
 use App\Models\Deal;
 use App\Models\Guesthouse;
 use App\Models\NavigationItem;
 use App\Models\NewsletterSubscriber;
+use App\Models\SiteSetting;
 use App\Models\Transfer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -126,6 +128,24 @@ class DestinationDirectoryTest extends TestCase
         $this->post('/newsletter-subscriptions', ['email' => 'guest@example.com', 'accept_terms' => true])->assertSessionHas('newsletter_success');
         $this->assertDatabaseHas('newsletter_subscribers', ['email' => 'guest@example.com', 'status' => 'active']);
         $this->assertSame(1, NewsletterSubscriber::count());
+    }
+
+    public function test_articles_support_categories_rich_content_and_category_filtering(): void
+    {
+        $guides = ArticleCategory::where('slug', 'island-guides')->firstOrFail();
+        $news = ArticleCategory::where('slug', 'local-news')->firstOrFail();
+        Article::create(['article_category_id' => $guides->id, 'title' => 'Reef Guide', 'slug' => 'reef-guide', 'excerpt' => 'A reef guide.', 'body' => '<h2>Protect the reef</h2><p>Travel thoughtfully.</p>', 'published_at' => now(), 'active' => true]);
+        Article::create(['article_category_id' => $news->id, 'title' => 'Harbour News', 'slug' => 'harbour-news', 'excerpt' => 'A local update.', 'body' => '<p>Latest update.</p>', 'published_at' => now(), 'active' => true]);
+
+        $this->get('/news?category=island-guides')->assertOk()->assertSee('Reef Guide')->assertDontSee('Harbour News');
+        $this->get('/news/reef-guide')->assertOk()->assertSee('<h2>Protect the reef</h2>', false);
+    }
+
+    public function test_enabled_google_analytics_setting_is_added_to_public_pages(): void
+    {
+        SiteSetting::where('key', 'google_analytics_id')->update(['value' => 'G-TEST123', 'active' => true]);
+
+        $this->get('/')->assertOk()->assertSee('googletagmanager.com/gtag/js?id=G-TEST123', false);
     }
 
     public function test_transfer_and_guesthouse_booking_requests_still_save(): void

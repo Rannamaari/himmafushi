@@ -14,7 +14,7 @@ class ArticlesTable
     public static function configure(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('title')->searchable(), TextColumn::make('slug')->searchable(), TextColumn::make('published_at')->dateTime()->sortable(),
+            TextColumn::make('title')->searchable(), TextColumn::make('category.name')->label('Category')->badge(), TextColumn::make('slug')->searchable(), TextColumn::make('published_at')->dateTime()->sortable(),
             IconColumn::make('featured')->boolean(), IconColumn::make('active')->boolean(),
         ])->recordActions([EditAction::make()])->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
     }
