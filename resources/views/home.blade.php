@@ -36,6 +36,8 @@
         </section>
     @endif
 
+    <div class="page-shell home-inline-ad"><x-ad-slot position="home_after_featured" /></div>
+
     <section class="home-section travel-section" aria-labelledby="travel-heading">
         <div class="page-shell travel-layout">
             <div class="travel-intro"><p class="eyebrow light">Arrive with confidence</p><h2 id="travel-heading">Getting to Himmafushi</h2><p>Himmafushi is reached by sea from Velana International Airport and Male. Choose your travel date to see the services running that day.</p><a class="button" href="{{ route('transfers.index') }}">Book Your Transfer <span aria-hidden="true">→</span></a></div>
