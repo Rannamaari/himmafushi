@@ -19,16 +19,16 @@
         </div>
     </section>
 
-    @if($featuredItems->isNotEmpty())
+    @if($featuredSection && $featuredItems->isNotEmpty())
         <section class="home-section featured-bento-section" aria-labelledby="featured-heading">
-            <div class="page-shell home-section-heading"><div><p class="eyebrow">Curated for your visit</p><h2 id="featured-heading">Featured in Himmafushi</h2><p>Island experiences, local favourites and timely offers worth knowing about.</p></div><a class="text-link" href="{{ route('activities.index') }}">Explore things to do</a></div>
+            <div class="page-shell home-section-heading"><div>@if($featuredSection->eyebrow)<p class="eyebrow">{{ $featuredSection->eyebrow }}</p>@endif<h2 id="featured-heading">{{ $featuredSection->title }}</h2>@if($featuredSection->description)<p>{{ $featuredSection->description }}</p>@endif</div>@if($featuredSection->cta_label && $featuredSection->cta_url)<a class="text-link" href="{{ $featuredSection->cta_url }}">{{ $featuredSection->cta_label }}</a>@endif</div>
             <div class="page-shell featured-bento" aria-label="Featured places and experiences">
                 @foreach($featuredItems->take(7) as $item)
                     <article class="featured-bento-item featured-bento-item-{{ $loop->iteration }}">
-                        <a href="{{ $item['url'] }}">
-                            <img src="{{ $item['image'] ? asset('storage/'.$item['image']) : asset('images/himmafushi-hero.png') }}" alt="{{ $item['title'] }}" width="900" height="700" loading="lazy">
-                            <span class="feature-badge">{{ $item['badge'] }}</span>
-                            <div class="featured-bento-content"><p>{{ $item['type'] }}</p><h3>{{ $item['title'] }}</h3>@if($item['summary'])<span>{{ str($item['summary'])->limit(90) }}</span>@endif<div>@if($item['price'])<strong>From {{ $item['price'] }}</strong>@else<strong>Discover locally</strong>@endif<span>{{ $item['cta'] }} →</span></div></div>
+                        <a href="{{ $item->url ?: '#' }}">
+                            <img src="{{ $item->image ? asset('storage/'.$item->image) : asset('images/himmafushi-hero.png') }}" alt="{{ $item->title }}" width="900" height="700" loading="lazy">
+                            @if($item->badge)<span class="feature-badge">{{ $item->badge }}</span>@endif
+                            <div class="featured-bento-content">@if($item->type_label)<p>{{ $item->type_label }}</p>@endif<h3>{{ $item->title }}</h3>@if($item->summary)<span>{{ str($item->summary)->limit(90) }}</span>@endif<div><strong>{{ $item->price_text ?: 'Discover locally' }}</strong><span>{{ $item->cta_label ?: 'View' }} →</span></div></div>
                         </a>
                     </article>
                 @endforeach

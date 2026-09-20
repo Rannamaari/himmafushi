@@ -10,6 +10,7 @@ use App\Models\Business;
 use App\Models\BusinessCategory;
 use App\Models\Deal;
 use App\Models\Guesthouse;
+use App\Models\HomepageFeature;
 use App\Models\NavigationItem;
 use App\Models\NewsletterSubscriber;
 use App\Models\SiteSetting;
@@ -77,6 +78,7 @@ class DestinationDirectoryTest extends TestCase
     public function test_homepage_shows_current_featured_content_and_hides_future_advertisements(): void
     {
         Activity::create(['name' => 'Lagoon Snorkeling', 'slug' => 'lagoon-snorkeling', 'short_description' => 'A guided lagoon trip.', 'featured' => true, 'featured_order' => 10, 'active' => true]);
+        HomepageFeature::create(['title' => 'Lagoon Snorkeling', 'type_label' => 'Experience', 'summary' => 'A guided lagoon trip.', 'url' => '/activities', 'active' => true]);
         Advertisement::create(['advertiser' => 'Visible Sponsor', 'placement' => 'home_search_sponsor', 'destination_url' => '/shops', 'active' => true]);
         Advertisement::create(['advertiser' => 'Future Sponsor', 'placement' => 'home_after_blog', 'starts_at' => now()->addDay(), 'active' => true]);
 
