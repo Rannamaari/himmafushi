@@ -1,24 +1,33 @@
-@php
-    $isHome = request()->routeIs('home');
-    $active = fn (string ...$routes): bool => request()->routeIs(...$routes);
-@endphp
+@php($isHome = request()->routeIs('home'))
 <header class="site-header {{ $isHome ? 'site-header-home' : '' }}" data-site-header>
     <div class="page-shell header-inner">
         <a href="{{ route('home') }}" class="brand" aria-label="Himmafushi home">HIMMAFUSHI<span>.</span></a>
-        <nav class="desktop-nav" aria-label="Primary navigation" data-desktop-nav><ul>
-            <li><button class="desktop-nav-link {{ $active('guesthouses.*') ? 'is-active' : '' }}" type="button" aria-expanded="false" aria-controls="stay-menu" data-menu-toggle="stay-menu">Stay</button></li>
-            <li><a class="desktop-nav-link {{ $active('restaurants.*') ? 'is-active' : '' }}" href="{{ route('restaurants.index') }}" data-nav-link>Eat &amp; Drink</a></li>
-            <li><button class="desktop-nav-link {{ $active('transfers.*') ? 'is-active' : '' }}" type="button" aria-expanded="false" aria-controls="transfer-menu" data-menu-toggle="transfer-menu">Transfers</button></li>
-            <li><button class="desktop-nav-link {{ $active('activities.*') ? 'is-active' : '' }}" type="button" aria-expanded="false" aria-controls="explore-menu" data-menu-toggle="explore-menu">Things To Do</button></li>
-            <li><a class="desktop-nav-link {{ $active('shops.*') ? 'is-active' : '' }}" href="{{ route('shops.index') }}" data-nav-link>Shops</a></li>
-            <li><a class="desktop-nav-link {{ $active('wellness.*') ? 'is-active' : '' }}" href="{{ route('wellness.index') }}" data-nav-link>Wellness</a></li>
-            <li><a class="desktop-nav-link {{ $active('deals.*') ? 'is-active' : '' }}" href="{{ route('deals.index') }}" data-nav-link>Deals</a></li>
-        </ul><span class="nav-indicator" aria-hidden="true" data-nav-indicator></span></nav>
+        <nav class="desktop-nav" aria-label="Primary navigation" data-desktop-nav>
+            <ul>
+                @foreach($navigationItems->where('show_in_desktop', true) as $item)
+                    @php($hasMenu = $item->menu_style !== 'link' && $item->children->isNotEmpty())
+                    <li class="nav-menu-item {{ $item->menu_style === 'mega' ? 'nav-menu-item-wide' : '' }}">
+                        @if($hasMenu)
+                            <button class="desktop-nav-link {{ $item->isCurrent() ? 'is-active' : '' }}" type="button" aria-expanded="false" aria-controls="nav-menu-{{ $item->id }}" data-menu-toggle="nav-menu-{{ $item->id }}">{{ $item->label }}</button>
+                            <div id="nav-menu-{{ $item->id }}" class="nav-dropdown {{ $item->menu_style === 'mega' ? 'nav-dropdown-wide' : 'nav-dropdown-small' }}" hidden data-dropdown>
+                                @if($item->menu_heading)<p class="nav-menu-label">{{ $item->menu_heading }}</p>@endif
+                                <div class="{{ $item->menu_style === 'mega' ? 'mega-menu-links' : '' }}">
+                                    @foreach($item->children as $child)
+                                        <a href="{{ $child->destination() }}" @if($child->open_in_new_tab) target="_blank" rel="noopener" @endif>{{ $child->label }} <span>&rarr;</span></a>
+                                    @endforeach
+                                </div>
+                                <a class="nav-menu-cta" href="{{ $item->destination() }}">View all {{ strtolower($item->label) }} <span>&rarr;</span></a>
+                            </div>
+                        @else
+                            <a class="desktop-nav-link {{ $item->isCurrent() ? 'is-active' : '' }}" href="{{ $item->destination() }}" @if($item->open_in_new_tab) target="_blank" rel="noopener" @endif data-nav-link>{{ $item->label }}</a>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+            <span class="nav-indicator" aria-hidden="true" data-nav-indicator></span>
+        </nav>
         <div class="header-actions"><button class="header-icon-button" type="button" aria-label="Search Himmafushi" aria-controls="site-search" aria-expanded="false" data-search-open><span aria-hidden="true">&#128269;</span></button><a class="plan-stay-button" href="{{ route('guesthouses.index') }}">Plan Your Stay <span aria-hidden="true">&rarr;</span></a><button class="mobile-menu-button" type="button" aria-label="Open menu" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open><span></span><span></span></button></div>
-        <div id="stay-menu" class="nav-dropdown nav-dropdown-small" hidden data-dropdown><p class="nav-menu-label">Stay in Himmafushi</p><a href="{{ route('guesthouses.index') }}">Guest Houses <span>&rarr;</span></a><a href="{{ route('guesthouses.index') }}">Hotels <span>&rarr;</span></a><a href="{{ route('guesthouses.index') }}">Surf Camps <span>&rarr;</span></a><a class="nav-menu-cta" href="{{ route('guesthouses.index') }}">View all stays <span>&rarr;</span></a></div>
-        <div id="transfer-menu" class="nav-dropdown nav-dropdown-small" hidden data-dropdown><p class="nav-menu-label">Travel made simple</p><a href="{{ route('transfers.index') }}">Airport Transfers <span>&rarr;</span></a><a href="{{ route('transfers.index') }}">Speedboat Schedule <span>&rarr;</span></a><a href="{{ route('transfers.index') }}">Private Transfers <span>&rarr;</span></a><a class="nav-menu-cta" href="{{ route('transfers.index') }}">Book a transfer <span>&rarr;</span></a></div>
-        <div id="explore-menu" class="nav-dropdown nav-mega-menu" hidden data-dropdown><div><p class="nav-menu-label">Explore Himmafushi</p><div class="mega-menu-links"><a href="{{ route('activities.index') }}">Surfing</a><a href="{{ route('activities.index') }}">Diving</a><a href="{{ route('activities.index') }}">Snorkelling</a><a href="{{ route('activities.index') }}">Fishing</a><a href="{{ route('activities.index') }}">Excursions</a><a href="{{ route('activities.index') }}">Sandbank Trips</a><a href="{{ route('activities.index') }}">Dolphin Cruises</a><a href="{{ route('activities.index') }}">Island Life</a></div><a class="nav-menu-cta" href="{{ route('activities.index') }}">Explore all experiences <span>&rarr;</span></a></div><a class="mega-menu-image" href="{{ route('activities.index') }}"><img src="{{ asset('images/himmafushi-hero.png') }}" alt="Himmafushi lagoon" loading="lazy"><span>Made for island days</span></a></div>
     </div>
-    <div id="mobile-navigation" class="mobile-navigation" hidden data-mobile-navigation><div class="mobile-navigation-inner"><div class="mobile-nav-top"><a href="{{ route('home') }}" class="brand">HIMMAFUSHI<span>.</span></a><button type="button" aria-label="Close menu" data-mobile-close>&times;</button></div><nav aria-label="Mobile navigation"><ol><li><a href="{{ route('guesthouses.index') }}"><span>01</span>Stay</a></li><li><a href="{{ route('restaurants.index') }}"><span>02</span>Eat &amp; Drink</a></li><li><a href="{{ route('transfers.index') }}"><span>03</span>Transfers</a></li><li><a href="{{ route('activities.index') }}"><span>04</span>Things To Do</a></li><li><a href="{{ route('shops.index') }}"><span>05</span>Shops</a></li><li><a href="{{ route('wellness.index') }}"><span>06</span>Wellness</a></li><li><a href="{{ route('deals.index') }}"><span>07</span>Deals</a></li><li><a href="{{ route('news.index') }}"><span>08</span>News</a></li></ol></nav><a class="mobile-plan-button" href="{{ route('guesthouses.index') }}">Plan Your Stay <span>&rarr;</span></a></div></div>
+    <div id="mobile-navigation" class="mobile-navigation" hidden data-mobile-navigation><div class="mobile-navigation-inner"><div class="mobile-nav-top"><a href="{{ route('home') }}" class="brand">HIMMAFUSHI<span>.</span></a><button type="button" aria-label="Close menu" data-mobile-close>&times;</button></div><nav aria-label="Mobile navigation"><ol>@foreach($navigationItems->where('show_in_mobile', true) as $item)<li><a href="{{ $item->destination() }}" @if($item->open_in_new_tab) target="_blank" rel="noopener" @endif><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>{{ $item->label }}</a></li>@endforeach</ol></nav><a class="mobile-plan-button" href="{{ route('guesthouses.index') }}">Plan Your Stay <span>&rarr;</span></a></div></div>
 </header>
 <x-site.search-overlay />

@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Activity;
+use App\Models\Advertisement;
+use App\Models\Article;
 use App\Models\Business;
 use App\Models\BusinessCategory;
-use App\Models\Advertisement;
-use App\Models\Activity;
-use App\Models\Article;
 use App\Models\Deal;
 use App\Models\Guesthouse;
+use App\Models\NavigationItem;
 use App\Models\NewsletterSubscriber;
 use App\Models\Transfer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -78,6 +79,32 @@ class DestinationDirectoryTest extends TestCase
         Advertisement::create(['advertiser' => 'Future Sponsor', 'placement' => 'home_after_blog', 'starts_at' => now()->addDay(), 'active' => true]);
 
         $this->get('/')->assertOk()->assertSee('Featured in Himmafushi')->assertSee('Lagoon Snorkeling')->assertSee('Visible Sponsor')->assertDontSee('Future Sponsor');
+    }
+
+    public function test_navigation_and_dropdown_items_are_loaded_from_the_database(): void
+    {
+        $stay = NavigationItem::create([
+            'key' => 'stay', 'label' => 'Custom Stay', 'route_name' => 'guesthouses.index',
+            'active_route_pattern' => 'guesthouses.*', 'menu_style' => 'dropdown', 'active' => true,
+        ]);
+        NavigationItem::create([
+            'parent_id' => $stay->id, 'key' => 'surf-camps', 'label' => 'Custom Surf Camps',
+            'route_name' => 'guesthouses.index', 'active' => true,
+        ]);
+
+        $this->get('/')->assertOk()->assertSee('Custom Stay')->assertSee('Custom Surf Camps');
+    }
+
+    public function test_adsense_code_can_be_rendered_globally_and_after_blog_content(): void
+    {
+        $article = Article::create(['title' => 'Ad test', 'slug' => 'ad-test', 'excerpt' => 'Testing ads.', 'body' => 'Article body.', 'published_at' => now(), 'active' => true]);
+        Advertisement::create(['advertiser' => 'Google AdSense', 'placement' => 'site_head', 'embed_code' => '<script data-site-ads="enabled"></script>', 'active' => true]);
+        Advertisement::create(['advertiser' => 'Google AdSense', 'placement' => 'blog_after_content', 'embed_code' => '<ins class="adsbygoogle" data-ad-slot="123"></ins>', 'active' => true]);
+
+        $this->get(route('news.show', $article))
+            ->assertOk()
+            ->assertSee('data-site-ads="enabled"', false)
+            ->assertSee('data-ad-slot="123"', false);
     }
 
     public function test_advertisement_tracking_records_impressions_and_clicks(): void

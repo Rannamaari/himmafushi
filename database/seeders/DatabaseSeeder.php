@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HimmafushiDirectorySeeder::class);
         $this->call(TransferScheduleSeeder::class);
         $this->call(HimmafushiContentSeeder::class);
+        $this->call(NavigationItemSeeder::class);
     }
 }

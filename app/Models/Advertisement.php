@@ -9,7 +9,7 @@ class Advertisement extends Model
 {
     protected $fillable = [
         'advertiser', 'placement', 'headline', 'copy', 'image', 'mobile_image', 'cta_label', 'destination_url',
-        'priority', 'starts_at', 'ends_at', 'active', 'impressions', 'clicks',
+        'embed_code', 'priority', 'starts_at', 'ends_at', 'active', 'impressions', 'clicks',
     ];
 
     protected function casts(): array

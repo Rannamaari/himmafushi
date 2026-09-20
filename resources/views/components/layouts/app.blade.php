@@ -12,11 +12,13 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
+    <x-ad-slot position="site_head" head />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="site-body">
     <x-site.header />
     <main>{{ $slot }}</main>
+    <div class="page-shell sitewide-ad"><x-ad-slot position="site_after_content" /></div>
     <x-site.footer />
 </body>
 </html>

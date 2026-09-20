@@ -11,7 +11,7 @@ class AdSlot extends Component
 {
     public ?Advertisement $advertisement;
 
-    public function __construct(public string $position, public bool $compact = false)
+    public function __construct(public string $position, public bool $compact = false, public bool $head = false)
     {
         $this->advertisement = Advertisement::live()
             ->where('placement', $position)
