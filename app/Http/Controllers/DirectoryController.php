@@ -13,7 +13,7 @@ class DirectoryController extends Controller
         $categoryModel = BusinessCategory::query()->where('slug', $category)->where('active', true)->first()
             ?? new BusinessCategory(['name' => str($category)->replace('-', ' ')->title(), 'slug' => $category]);
         $search = trim((string) $request->string('q'));
-        $businesses = Business::public()->where('business_category_id', $categoryModel->id ?? 0)->with('category')->when($search !== '', fn ($query) => $query->where(fn ($nested) => $nested->where('name', 'like', "%{$search}%")->orWhere('short_description', 'like', "%{$search}%")))->orderByDesc('featured')->orderBy('name')->paginate(12)->withQueryString();
+        $businesses = Business::public()->where('business_category_id', $categoryModel->id ?? 0)->with('category')->when($search !== '', fn ($query) => $query->where(fn ($nested) => $nested->whereLike('name', "%{$search}%")->orWhereLike('short_description', "%{$search}%")))->orderByDesc('featured')->orderBy('name')->paginate(12)->withQueryString();
 
         return view('directory.index', compact('businesses', 'categoryModel', 'search'));
     }

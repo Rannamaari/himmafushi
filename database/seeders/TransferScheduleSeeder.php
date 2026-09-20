@@ -9,7 +9,7 @@ class TransferScheduleSeeder extends Seeder
 {
     public function run(): void
     {
-        Transfer::query()->where('slug', 'like', 'n4seeb-%')->update(['active' => false]);
+        Transfer::query()->whereLike('slug', 'n4seeb-%')->update(['active' => false]);
         $saturdayToThursday = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday'];
         $everyDay = [...$saturdayToThursday, 'friday'];
 
@@ -85,7 +85,7 @@ class TransferScheduleSeeder extends Seeder
             'local_price' => $localPrice,
             'tourist_price' => $touristPrice,
             'tourist_currency' => 'USD',
-            'duration_minutes' => 45,
+            'duration_minutes' => $this->isMaleHimmafushiRoute($from, $to) ? 20 : 45,
             'notes' => $notes,
         ];
     }
@@ -93,5 +93,14 @@ class TransferScheduleSeeder extends Seeder
     private function slugTime(string $time): string
     {
         return str_replace(':', '', $time);
+    }
+
+    private function isMaleHimmafushiRoute(string $from, string $to): bool
+    {
+        $from = strtolower($from);
+        $to = strtolower($to);
+
+        return (str_contains($from, 'male') && str_contains($to, 'himmafushi'))
+            || (str_contains($from, 'himmafushi') && str_contains($to, 'male'));
     }
 }

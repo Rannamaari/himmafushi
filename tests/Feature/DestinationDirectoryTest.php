@@ -51,7 +51,7 @@ class DestinationDirectoryTest extends TestCase
     {
         Guesthouse::create(['name' => 'Wave By FAZIMS', 'slug' => 'wave-by-fazims', 'active' => true]);
 
-        $this->get('/search?q=Wave')->assertOk()->assertSee('Wave By FAZIMS')->assertSee('Stay');
+        $this->get('/search?q=wave')->assertOk()->assertSee('Wave By FAZIMS')->assertSee('Stay');
     }
 
     public function test_search_page_includes_matching_public_directory_and_news_items(): void

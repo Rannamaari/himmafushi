@@ -27,7 +27,7 @@ class SearchController extends Controller
     {
         $matches = fn ($query, array $columns) => $query->where(function ($nested) use ($columns, $search) {
             foreach ($columns as $column) {
-                $nested->orWhere($column, 'like', "%{$search}%");
+                $nested->orWhereLike($column, "%{$search}%");
             }
         });
 
