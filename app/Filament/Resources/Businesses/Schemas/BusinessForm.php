@@ -61,17 +61,19 @@ class BusinessForm
                 TextInput::make('latitude')
                     ->label('Google Maps latitude')
                     ->numeric()
-                    ->step('0.0000001')
+                    ->step('any')
                     ->minValue(-90)
                     ->maxValue(90)
+                    ->dehydrateStateUsing(fn ($state) => filled($state) ? round((float) $state, 7) : null)
                     ->helperText('In Google Maps, right-click the exact location and copy the first number.'),
                 TextInput::make('longitude')
                     ->label('Google Maps longitude')
                     ->numeric()
-                    ->step('0.0000001')
+                    ->step('any')
                     ->minValue(-180)
                     ->maxValue(180)
-                    ->helperText('Paste the second coordinate from Google Maps.'),
+                    ->dehydrateStateUsing(fn ($state) => filled($state) ? round((float) $state, 7) : null)
+                    ->helperText('Paste the complete second coordinate from Google Maps; extra decimal places are rounded automatically.'),
                 TextInput::make('google_maps_url')
                     ->label('Google Maps share URL')
                     ->url()
