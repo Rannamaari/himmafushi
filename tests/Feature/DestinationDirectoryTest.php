@@ -27,6 +27,9 @@ class DestinationDirectoryTest extends TestCase
     public function test_public_directory_pages_are_available_without_data(): void
     {
         $this->get('/')->assertOk();
+        $this->get('/himmafushi')->assertOk()
+            ->assertSee('Himmafushi Island Guide')
+            ->assertSee('FAQPage', false);
         $this->get('/restaurants')->assertOk();
         $this->get('/shops')->assertOk();
         $this->get('/wellness')->assertOk();

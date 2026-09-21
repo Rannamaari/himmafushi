@@ -13,6 +13,7 @@ class SitemapController extends Controller
     {
         $pages = collect([
             ['url' => route('home'), 'priority' => '1.0', 'frequency' => 'daily'],
+            ['url' => route('island-guide'), 'priority' => '0.9', 'frequency' => 'monthly'],
             ['url' => route('guesthouses.index'), 'priority' => '0.9', 'frequency' => 'daily'],
             ['url' => route('transfers.index'), 'priority' => '0.9', 'frequency' => 'daily'],
             ['url' => route('private-transfers'), 'priority' => '0.9', 'frequency' => 'weekly'],

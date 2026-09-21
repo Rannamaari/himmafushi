@@ -26,6 +26,7 @@ Route::get('/news/{article:slug}', [NewsController::class, 'show'])->name('news.
 Route::post('/newsletter-subscriptions', [NewsletterSubscriptionController::class, 'store'])->middleware('throttle:5,1')->name('newsletter.subscribe');
 Route::view('/terms', 'legal.terms')->name('terms');
 Route::view('/privacy', 'legal.privacy')->name('privacy');
+Route::view('/himmafushi', 'island-guide')->name('island-guide');
 Route::view('/partner-with-us', 'partnerships.partner')->name('partner');
 Route::view('/list-your-guesthouse', 'partnerships.list-guesthouse')->name('list-guesthouse');
 Route::view('/packages', 'experiences.packages')->name('packages');
