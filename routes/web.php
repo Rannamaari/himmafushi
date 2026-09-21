@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\DirectoryController;
+use App\Http\Controllers\ExperiencePageController;
 use App\Http\Controllers\GuesthouseBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
@@ -30,6 +31,12 @@ Route::view('/list-your-guesthouse', 'partnerships.list-guesthouse')->name('list
 Route::view('/packages', 'experiences.packages')->name('packages');
 Route::view('/excursions', 'experiences.excursions')->name('excursions');
 Route::view('/fishing-trips', 'experiences.fishing-trips')->name('fishing-trips');
+Route::get('/surfing', ExperiencePageController::class)->defaults('experience', 'surfing')->name('surfing');
+Route::get('/diving', ExperiencePageController::class)->defaults('experience', 'diving')->name('diving');
+Route::get('/snorkelling', ExperiencePageController::class)->defaults('experience', 'snorkelling')->name('snorkelling');
+Route::get('/sandbank-trips', ExperiencePageController::class)->defaults('experience', 'sandbank-trips')->name('sandbank-trips');
+Route::get('/dolphin-cruises', ExperiencePageController::class)->defaults('experience', 'dolphin-cruises')->name('dolphin-cruises');
+Route::get('/island-life', ExperiencePageController::class)->defaults('experience', 'island-life')->name('island-life');
 
 Route::get('/transfers', [TransferScheduleController::class, 'index'])->name('transfers.index');
 

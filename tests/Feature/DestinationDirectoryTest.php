@@ -38,7 +38,8 @@ class DestinationDirectoryTest extends TestCase
     {
         $pages = [
             '/terms', '/privacy', '/partner-with-us', '/list-your-guesthouse',
-            '/packages', '/excursions', '/fishing-trips',
+            '/packages', '/excursions', '/fishing-trips', '/surfing', '/diving',
+            '/snorkelling', '/sandbank-trips', '/dolphin-cruises', '/island-life',
         ];
 
         foreach ($pages as $page) {
@@ -49,6 +50,19 @@ class DestinationDirectoryTest extends TestCase
             ->assertOk()
             ->assertSee(route('packages'), false)
             ->assertSee(route('list-guesthouse'), false);
+    }
+
+    public function test_things_to_do_navigation_links_to_dedicated_booking_pages(): void
+    {
+        $this->seed(\Database\Seeders\NavigationItemSeeder::class);
+
+        $response = $this->get('/');
+
+        foreach (['surfing', 'diving', 'snorkelling', 'fishing-trips', 'excursions', 'sandbank-trips', 'dolphin-cruises', 'island-life'] as $route) {
+            $response->assertSee(route($route), false);
+        }
+
+        $this->get('/activities')->assertOk()->assertSee('Book Island Experiences');
     }
 
     public function test_only_active_businesses_are_displayed_publicly(): void

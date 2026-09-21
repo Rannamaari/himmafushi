@@ -31,14 +31,20 @@ class NavigationItemSeeder extends Seeder
         $children = [
             'stay' => [['guest-houses', 'Guest Houses'], ['hotels', 'Hotels'], ['surf-camps', 'Surf Camps']],
             'transfers' => [['airport-transfers', 'Airport Transfers'], ['speedboat-schedule', 'Speedboat Schedule'], ['private-transfers', 'Private Transfers']],
-            'things-to-do' => [['surfing', 'Surfing'], ['diving', 'Diving'], ['snorkelling', 'Snorkelling'], ['fishing', 'Fishing'], ['excursions', 'Excursions'], ['sandbank-trips', 'Sandbank Trips'], ['dolphin-cruises', 'Dolphin Cruises'], ['island-life', 'Island Life']],
+            'things-to-do' => [
+                ['surfing', 'Surfing', 'surfing'], ['diving', 'Diving', 'diving'],
+                ['snorkelling', 'Snorkelling', 'snorkelling'], ['fishing', 'Fishing', 'fishing-trips'],
+                ['excursions', 'Excursions', 'excursions'], ['sandbank-trips', 'Sandbank Trips', 'sandbank-trips'],
+                ['dolphin-cruises', 'Dolphin Cruises', 'dolphin-cruises'], ['island-life', 'Island Life', 'island-life'],
+            ],
         ];
 
         foreach ($children as $parentKey => $links) {
             $parent = NavigationItem::where('key', $parentKey)->firstOrFail();
-            foreach ($links as $index => [$key, $label]) {
+            foreach ($links as $index => $link) {
+                [$key, $label, $route] = [...$link, $parent->route_name];
                 NavigationItem::updateOrCreate(['key' => $key], [
-                    'parent_id' => $parent->id, 'label' => $label, 'route_name' => $parent->route_name,
+                    'parent_id' => $parent->id, 'label' => $label, 'route_name' => $route,
                     'sort_order' => ($index + 1) * 10, 'menu_style' => 'link', 'active' => true,
                 ]);
             }
