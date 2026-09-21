@@ -59,9 +59,24 @@ class BusinessForm
                 Toggle::make('active')
                     ->required(),
                 TextInput::make('latitude')
-                    ->numeric(),
+                    ->label('Google Maps latitude')
+                    ->numeric()
+                    ->step('0.0000001')
+                    ->minValue(-90)
+                    ->maxValue(90)
+                    ->helperText('In Google Maps, right-click the exact location and copy the first number.'),
                 TextInput::make('longitude')
-                    ->numeric(),
+                    ->label('Google Maps longitude')
+                    ->numeric()
+                    ->step('0.0000001')
+                    ->minValue(-180)
+                    ->maxValue(180)
+                    ->helperText('Paste the second coordinate from Google Maps.'),
+                TextInput::make('google_maps_url')
+                    ->label('Google Maps share URL')
+                    ->url()
+                    ->columnSpanFull()
+                    ->helperText('Optional: paste the Share link from Google Maps for the Open in Google Maps button.'),
             ]);
     }
 }

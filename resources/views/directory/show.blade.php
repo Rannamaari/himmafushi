@@ -73,5 +73,16 @@
                 </div>
             </aside>
         </div>
+
+        @if ($business->latitude !== null && $business->longitude !== null)
+            @php
+                $coordinates = $business->latitude.','.$business->longitude;
+                $directionsUrl = $business->google_maps_url ?: 'https://www.google.com/maps/search/?api=1&query='.urlencode($coordinates);
+            @endphp
+            <div class="page-shell business-location">
+                <div class="business-location-heading"><div><p class="eyebrow">Exact location</p><h2>Find {{ $business->name }}</h2><p>{{ $business->address ?: 'Himmafushi, Maldives' }}</p></div><a class="button button-outline" href="{{ $directionsUrl }}" target="_blank" rel="noopener">Open in Google Maps</a></div>
+                <div class="business-map"><iframe src="https://www.google.com/maps?q={{ urlencode($coordinates) }}&amp;z=20&amp;output=embed" title="Map showing {{ $business->name }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+            </div>
+        @endif
     </section>
 </x-layouts.app>

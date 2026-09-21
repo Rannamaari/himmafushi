@@ -45,9 +45,12 @@ class DestinationDirectoryTest extends TestCase
     public function test_business_detail_route_uses_slug_model_binding(): void
     {
         $category = BusinessCategory::create(['name' => 'Restaurant', 'slug' => 'restaurant']);
-        $business = Business::create(['business_category_id' => $category->id, 'name' => 'Moscow Yeda', 'slug' => 'moscow-yeda', 'active' => true]);
+        $business = Business::create([
+            'business_category_id' => $category->id, 'name' => 'Moscow Yeda', 'slug' => 'moscow-yeda',
+            'latitude' => 4.3085000, 'longitude' => 73.5702000, 'google_maps_url' => 'https://maps.google.com/?q=4.3085,73.5702', 'active' => true,
+        ]);
 
-        $this->get(route('restaurants.show', $business))->assertOk()->assertSee('Moscow Yeda');
+        $this->get(route('restaurants.show', $business))->assertOk()->assertSee('Moscow Yeda')->assertSee('Find Moscow Yeda')->assertSee('z=20', false);
     }
 
     public function test_search_page_returns_matching_guesthouses(): void

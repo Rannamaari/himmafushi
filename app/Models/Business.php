@@ -12,7 +12,7 @@ class Business extends Model
     protected $fillable = [
         'business_category_id', 'name', 'slug', 'short_description', 'description', 'phone', 'whatsapp', 'email', 'address',
         'opening_time', 'closing_time', 'price_range', 'image', 'cover_image', 'delivery_available', 'takeaway_available',
-        'dine_in_available', 'featured', 'featured_order', 'featured_from', 'featured_until', 'active', 'latitude', 'longitude',
+        'dine_in_available', 'featured', 'featured_order', 'featured_from', 'featured_until', 'active', 'latitude', 'longitude', 'google_maps_url',
     ];
 
     protected function casts(): array
