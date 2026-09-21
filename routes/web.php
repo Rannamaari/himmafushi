@@ -31,7 +31,7 @@ Route::view('/list-your-guesthouse', 'partnerships.list-guesthouse')->name('list
 Route::view('/packages', 'experiences.packages')->name('packages');
 Route::view('/excursions', 'experiences.excursions')->name('excursions');
 Route::view('/fishing-trips', 'experiences.fishing-trips')->name('fishing-trips');
-Route::get('/surfing', ExperiencePageController::class)->defaults('experience', 'surfing')->name('surfing');
+Route::view('/surfing', 'experiences.surfing')->name('surfing');
 Route::get('/diving', ExperiencePageController::class)->defaults('experience', 'diving')->name('diving');
 Route::get('/snorkelling', ExperiencePageController::class)->defaults('experience', 'snorkelling')->name('snorkelling');
 Route::get('/sandbank-trips', ExperiencePageController::class)->defaults('experience', 'sandbank-trips')->name('sandbank-trips');

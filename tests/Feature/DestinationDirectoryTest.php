@@ -65,6 +65,10 @@ class DestinationDirectoryTest extends TestCase
         }
 
         $this->get('/activities')->assertOk()->assertSee('Book Island Experiences');
+        $this->get('/surfing')->assertOk()
+            ->assertSee('About Jailbreaks')
+            ->assertSee('AtollivaMaldives.com')
+            ->assertSee('FAQPage', false);
     }
 
     public function test_private_transfer_navigation_links_to_its_booking_page(): void
