@@ -30,7 +30,7 @@ class NavigationItemSeeder extends Seeder
 
         $children = [
             'stay' => [['guest-houses', 'Guest Houses'], ['hotels', 'Hotels'], ['surf-camps', 'Surf Camps']],
-            'transfers' => [['airport-transfers', 'Airport Transfers'], ['speedboat-schedule', 'Speedboat Schedule'], ['private-transfers', 'Private Transfers']],
+            'transfers' => [['airport-transfers', 'Airport Transfers'], ['speedboat-schedule', 'Speedboat Schedule'], ['private-transfers', 'Private Transfers', 'private-transfers']],
             'things-to-do' => [
                 ['surfing', 'Surfing', 'surfing'], ['diving', 'Diving', 'diving'],
                 ['snorkelling', 'Snorkelling', 'snorkelling'], ['fishing', 'Fishing', 'fishing-trips'],

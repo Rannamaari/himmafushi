@@ -33,6 +33,7 @@ class DestinationDirectoryTest extends TestCase
         $this->get('/barbers')->assertOk();
         $this->get('/guesthouses')->assertOk();
         $this->get('/transfers')->assertOk();
+        $this->get('/private-transfers')->assertOk()->assertSee('Call +960 7779493');
     }
 
     public function test_legal_partnership_and_experience_pages_are_available(): void
@@ -64,6 +65,13 @@ class DestinationDirectoryTest extends TestCase
         }
 
         $this->get('/activities')->assertOk()->assertSee('Book Island Experiences');
+    }
+
+    public function test_private_transfer_navigation_links_to_its_booking_page(): void
+    {
+        $this->seed(\Database\Seeders\NavigationItemSeeder::class);
+
+        $this->get('/')->assertOk()->assertSee(route('private-transfers'), false);
     }
 
     public function test_only_active_businesses_are_displayed_publicly(): void

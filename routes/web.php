@@ -39,6 +39,7 @@ Route::get('/dolphin-cruises', ExperiencePageController::class)->defaults('exper
 Route::get('/island-life', ExperiencePageController::class)->defaults('experience', 'island-life')->name('island-life');
 
 Route::get('/transfers', [TransferScheduleController::class, 'index'])->name('transfers.index');
+Route::view('/private-transfers', 'transfers.private')->name('private-transfers');
 
 Route::get('/transfers/{transfer:slug}/book', [TransferScheduleController::class, 'book'])->name('transfers.book');
 

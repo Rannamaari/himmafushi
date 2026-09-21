@@ -15,6 +15,7 @@ class SitemapController extends Controller
             ['url' => route('home'), 'priority' => '1.0', 'frequency' => 'daily'],
             ['url' => route('guesthouses.index'), 'priority' => '0.9', 'frequency' => 'daily'],
             ['url' => route('transfers.index'), 'priority' => '0.9', 'frequency' => 'daily'],
+            ['url' => route('private-transfers'), 'priority' => '0.9', 'frequency' => 'weekly'],
             ['url' => route('restaurants.index'), 'priority' => '0.8', 'frequency' => 'weekly'],
             ['url' => route('activities.index'), 'priority' => '0.8', 'frequency' => 'weekly'],
             ['url' => route('shops.index'), 'priority' => '0.7', 'frequency' => 'weekly'],
