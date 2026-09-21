@@ -21,6 +21,13 @@ class SitemapController extends Controller
             ['url' => route('wellness.index'), 'priority' => '0.7', 'frequency' => 'weekly'],
             ['url' => route('deals.index'), 'priority' => '0.8', 'frequency' => 'daily'],
             ['url' => route('news.index'), 'priority' => '0.8', 'frequency' => 'daily'],
+            ['url' => route('packages'), 'priority' => '0.8', 'frequency' => 'weekly'],
+            ['url' => route('excursions'), 'priority' => '0.8', 'frequency' => 'weekly'],
+            ['url' => route('fishing-trips'), 'priority' => '0.8', 'frequency' => 'weekly'],
+            ['url' => route('partner'), 'priority' => '0.6', 'frequency' => 'monthly'],
+            ['url' => route('list-guesthouse'), 'priority' => '0.7', 'frequency' => 'monthly'],
+            ['url' => route('terms'), 'priority' => '0.3', 'frequency' => 'yearly'],
+            ['url' => route('privacy'), 'priority' => '0.3', 'frequency' => 'yearly'],
         ]);
 
         Guesthouse::query()->where('active', true)->get()->each(fn (Guesthouse $item) => $pages->push([

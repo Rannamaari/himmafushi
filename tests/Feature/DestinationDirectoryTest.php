@@ -34,6 +34,23 @@ class DestinationDirectoryTest extends TestCase
         $this->get('/transfers')->assertOk();
     }
 
+    public function test_legal_partnership_and_experience_pages_are_available(): void
+    {
+        $pages = [
+            '/terms', '/privacy', '/partner-with-us', '/list-your-guesthouse',
+            '/packages', '/excursions', '/fishing-trips',
+        ];
+
+        foreach ($pages as $page) {
+            $this->get($page)->assertOk()->assertSee('7779493');
+        }
+
+        $this->get('/sitemap.xml')
+            ->assertOk()
+            ->assertSee(route('packages'), false)
+            ->assertSee(route('list-guesthouse'), false);
+    }
+
     public function test_only_active_businesses_are_displayed_publicly(): void
     {
         $category = BusinessCategory::create(['name' => 'Restaurant', 'slug' => 'restaurant']);
