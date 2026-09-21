@@ -78,5 +78,4 @@
 
     <section class="home-ad-section"><div class="page-shell"><x-ad-slot position="home_after_blog" /></div></section>
 
-    <section class="home-section home-newsletter"><div class="page-shell"><x-site.newsletter-signup /></div></section>
 </x-layouts.app>

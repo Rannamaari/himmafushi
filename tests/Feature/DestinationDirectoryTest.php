@@ -17,6 +17,7 @@ use App\Models\SiteSetting;
 use App\Models\Transfer;
 use App\Services\GoogleMapsLocationResolver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class DestinationDirectoryTest extends TestCase
@@ -172,6 +173,28 @@ class DestinationDirectoryTest extends TestCase
         $this->post('/newsletter-subscriptions', ['email' => 'guest@example.com', 'accept_terms' => true])->assertSessionHas('newsletter_success');
         $this->assertDatabaseHas('newsletter_subscribers', ['email' => 'guest@example.com', 'status' => 'active']);
         $this->assertSame(1, NewsletterSubscriber::count());
+    }
+
+    public function test_new_newsletter_signup_sends_one_telegram_notification(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        SiteSetting::where('key', 'telegram_bot_token')->update(['secret_value' => '123456:test-token', 'active' => true]);
+        SiteSetting::where('key', 'telegram_newsletter_chat_id')->update(['value' => '-100123456', 'active' => true]);
+
+        $signup = ['email' => 'offers@example.com', 'accept_terms' => true];
+        $this->post('/newsletter-subscriptions', $signup)->assertSessionHas('newsletter_success');
+        $this->post('/newsletter-subscriptions', $signup)->assertSessionHas('newsletter_success');
+
+        Http::assertSentCount(1);
+        Http::assertSent(fn ($request): bool => $request['chat_id'] === '-100123456'
+            && str_contains($request['text'], 'offers@example.com'));
+    }
+
+    public function test_newsletter_popup_is_available_sitewide(): void
+    {
+        $this->get('/')->assertOk()
+            ->assertSee('data-newsletter-popup', false)
+            ->assertSee('Get better island deals.');
     }
 
     public function test_articles_support_categories_rich_content_and_category_filtering(): void

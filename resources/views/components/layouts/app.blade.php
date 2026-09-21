@@ -63,5 +63,6 @@
     <main>{{ $slot }}</main>
     <div class="page-shell sitewide-ad"><x-ad-slot position="site_after_content" /></div>
     <x-site.footer />
+    <x-site.newsletter-popup />
 </body>
 </html>

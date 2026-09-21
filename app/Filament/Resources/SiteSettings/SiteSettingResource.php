@@ -37,7 +37,7 @@ class SiteSettingResource extends Resource
                 'google_analytics_id' => 'Example: G-XXXXXXXXXX',
                 'google_tag_manager_id' => 'Example: GTM-XXXXXXX',
                 'adsense_publisher_id' => 'Example: ca-pub-XXXXXXXXXXXXXXXX',
-                'telegram_transfer_chat_id', 'telegram_guesthouse_chat_id' => 'Enter the numeric chat ID, including a leading minus sign when applicable.',
+                'telegram_transfer_chat_id', 'telegram_guesthouse_chat_id', 'telegram_newsletter_chat_id' => 'Enter the numeric chat ID, including a leading minus sign when applicable.',
                 default => 'Enter the integration value.',
             }),
             TextInput::make('secret_value')->label('Secret value')->password()->revealable()->visible(fn (?SiteSetting $record): bool => (bool) $record?->is_secret)->helperText('Stored encrypted in the database.'),
