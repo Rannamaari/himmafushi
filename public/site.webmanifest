@@ -1,0 +1,12 @@
+{
+  "name": "Himmafushi",
+  "short_name": "Himmafushi",
+  "description": "Stay, eat, shop and explore Himmafushi, Maldives.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf8",
+  "theme_color": "#17383c",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

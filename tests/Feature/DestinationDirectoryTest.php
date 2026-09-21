@@ -159,6 +159,28 @@ class DestinationDirectoryTest extends TestCase
         $this->assertNotSame('123456:secret-token', \DB::table('site_settings')->where('key', 'telegram_bot_token')->value('secret_value'));
     }
 
+    public function test_public_pages_include_social_and_structured_seo_metadata(): void
+    {
+        $this->get('/')->assertOk()
+            ->assertSee('rel="icon"', false)
+            ->assertSee('property="og:image"', false)
+            ->assertSee('name="twitter:card" content="summary_large_image"', false)
+            ->assertSee('"@type":"WebSite"', false);
+
+        $this->get('/search?q=stay')->assertOk()->assertSee('name="robots" content="noindex,follow"', false);
+    }
+
+    public function test_sitemap_contains_public_directory_and_article_urls(): void
+    {
+        $article = Article::create(['title' => 'SEO Island Guide', 'slug' => 'seo-island-guide', 'excerpt' => 'A useful guide.', 'body' => '<p>Guide.</p>', 'published_at' => now(), 'active' => true]);
+        $guesthouse = Guesthouse::create(['name' => 'Sitemap Stay', 'slug' => 'sitemap-stay', 'active' => true]);
+
+        $this->get('/sitemap.xml')->assertOk()
+            ->assertHeader('Content-Type', 'application/xml')
+            ->assertSee(route('news.show', $article), false)
+            ->assertSee(route('guesthouses.show', $guesthouse), false);
+    }
+
     public function test_transfer_and_guesthouse_booking_requests_still_save(): void
     {
         $travelDate = now()->addDay();

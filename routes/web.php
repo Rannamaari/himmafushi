@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\GuesthouseBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TransferBookingController;
 use App\Http\Controllers\TransferScheduleController;
 use App\Models\Activity;
 use App\Models\Deal;
 use App\Models\Guesthouse;
-use App\Models\Transfer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::post('/advertisements/{advertisement}/impression', [AdvertisementController::class, 'impression'])->middleware('throttle:60,1')->name('ads.impression');
 Route::get('/advertisements/{advertisement}/click', [AdvertisementController::class, 'click'])->middleware('throttle:60,1')->name('ads.click');
 Route::get('/search', SearchController::class)->name('search');

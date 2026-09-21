@@ -1,4 +1,4 @@
-<x-layouts.app :title="$search ? 'Search results for '.$search.' | Himmafushi' : 'Search Himmafushi'" description="Search guesthouses, restaurants, shops, experiences, transfers, deals and island news in Himmafushi.">
+<x-layouts.app :title="$search ? 'Search results for '.$search.' | Himmafushi' : 'Search Himmafushi'" description="Search guesthouses, restaurants, shops, experiences, transfers, deals and island news in Himmafushi." robots="noindex,follow">
     <section class="page-hero search-page-hero">
         <div class="page-shell">
             <p class="eyebrow">Discover Himmafushi</p>

@@ -1,4 +1,20 @@
-@props(['title' => 'Himmafushi | Stay. Eat. Shop. Explore.', 'description' => 'Everything you need to experience Himmafushi, Maldives.'])
+@props([
+    'title' => 'Himmafushi, Maldives | Stays, Transfers, Food & Island Guide',
+    'description' => 'Plan your Himmafushi visit with local guesthouses, speedboat transfers, restaurants, activities, shops, deals and practical island guides.',
+    'image' => null,
+    'canonical' => null,
+    'robots' => 'index,follow,max-image-preview:large',
+    'type' => 'website',
+])
+@php
+    $canonicalUrl = $canonical ?: url()->current();
+    $socialImage = $image ? (str_starts_with($image, 'http') ? $image : asset('storage/'.$image)) : asset('images/himmafushi-hero.png');
+    $websiteSchema = [
+        '@context' => 'https://schema.org', '@type' => 'WebSite', 'name' => 'Himmafushi',
+        'url' => route('home'), 'description' => $description,
+        'potentialAction' => ['@type' => 'SearchAction', 'target' => route('search').'?q={search_term_string}', 'query-input' => 'required name=search_term_string'],
+    ];
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +23,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
-    <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="robots" content="{{ $robots }}">
+    <meta name="theme-color" content="#17383c">
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('favicon-64.png') }}" type="image/png" sizes="64x64">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="{{ $type }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
+    <meta property="og:site_name" content="Himmafushi">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="{{ $socialImage }}">
+    <meta property="og:image:alt" content="Discover Himmafushi, Maldives">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $socialImage }}">
+    <script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @stack('structured-data')
     @if($googleAnalyticsId = $marketingSettings->get('google_analytics_id'))
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ urlencode($googleAnalyticsId) }}"></script>
         <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',@js($googleAnalyticsId));</script>
