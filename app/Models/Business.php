@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GoogleMapsLocationResolver;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,22 @@ class Business extends Model
     protected function casts(): array
     {
         return ['opening_time' => 'datetime:H:i', 'closing_time' => 'datetime:H:i', 'delivery_available' => 'boolean', 'takeaway_available' => 'boolean', 'dine_in_available' => 'boolean', 'featured' => 'boolean', 'featured_from' => 'datetime', 'featured_until' => 'datetime', 'active' => 'boolean'];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Business $business): void {
+            if (! $business->isDirty('google_maps_url') || ! $business->google_maps_url) {
+                return;
+            }
+
+            $coordinates = app(GoogleMapsLocationResolver::class)->resolve($business->google_maps_url);
+
+            if ($coordinates) {
+                $business->latitude = $coordinates['latitude'];
+                $business->longitude = $coordinates['longitude'];
+            }
+        });
     }
 
     public function category(): BelongsTo

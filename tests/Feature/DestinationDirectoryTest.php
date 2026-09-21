@@ -15,6 +15,7 @@ use App\Models\NavigationItem;
 use App\Models\NewsletterSubscriber;
 use App\Models\SiteSetting;
 use App\Models\Transfer;
+use App\Services\GoogleMapsLocationResolver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -51,6 +52,13 @@ class DestinationDirectoryTest extends TestCase
         ]);
 
         $this->get(route('restaurants.show', $business))->assertOk()->assertSee('Moscow Yeda')->assertSee('Find Moscow Yeda')->assertSee('z=20', false);
+    }
+
+    public function test_google_maps_coordinates_can_be_extracted_from_shared_urls(): void
+    {
+        $coordinates = app(GoogleMapsLocationResolver::class)->extractCoordinates('https://www.google.com/maps/place/Moscow+Yeda/@4.3085,73.5702,20z');
+
+        $this->assertSame(['latitude' => 4.3085, 'longitude' => 73.5702], $coordinates);
     }
 
     public function test_search_page_returns_matching_guesthouses(): void

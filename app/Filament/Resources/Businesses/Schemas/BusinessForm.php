@@ -76,7 +76,7 @@ class BusinessForm
                     ->label('Google Maps share URL')
                     ->url()
                     ->columnSpanFull()
-                    ->helperText('Optional: paste the Share link from Google Maps for the Open in Google Maps button.'),
+                    ->helperText('Paste the Share link from Google Maps. When you save, the exact latitude and longitude are filled automatically.'),
             ]);
     }
 }
