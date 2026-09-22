@@ -2,6 +2,7 @@
     'title' => 'Himmafushi, Maldives | Stays, Transfers, Food & Island Guide',
     'description' => 'Plan your Himmafushi visit with local guesthouses, speedboat transfers, restaurants, activities, shops, deals and practical island guides.',
     'image' => null,
+    'imageAlt' => null,
     'canonical' => null,
     'robots' => 'index,follow,max-image-preview:large',
     'type' => 'website',
@@ -9,6 +10,7 @@
 @php
     $canonicalUrl = $canonical ?: url()->current();
     $socialImage = $image ? (str_starts_with($image, 'http') ? $image : asset('storage/'.$image)) : asset('images/himmafushi-hero.png');
+    $socialImageAlt = $imageAlt ?: 'Discover Himmafushi, Maldives';
     $websiteSchema = [
         '@context' => 'https://schema.org', '@type' => 'WebSite', 'name' => 'Himmafushi',
         'url' => route('home'), 'description' => $description,
@@ -37,11 +39,14 @@
     <meta property="og:site_name" content="Himmafushi">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="{{ $socialImage }}">
-    <meta property="og:image:alt" content="Discover Himmafushi, Maldives">
+    <meta property="og:image:secure_url" content="{{ $socialImage }}">
+    <meta property="og:image:alt" content="{{ $socialImageAlt }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $title }}">
     <meta name="twitter:description" content="{{ $description }}">
     <meta name="twitter:image" content="{{ $socialImage }}">
+    <meta name="twitter:image:alt" content="{{ $socialImageAlt }}">
+    @stack('head-meta')
     <script type="application/ld+json">{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @stack('structured-data')
     @if($googleAnalyticsId = $marketingSettings->get('google_analytics_id'))

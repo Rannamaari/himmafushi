@@ -1,4 +1,10 @@
-<x-layouts.app :title="$guesthouse->name.' | Himmafushi Guesthouse'" :description="$guesthouse->excerpt ?: str(strip_tags($guesthouse->description ?: ''))->limit(160) ?: 'Request a stay at '.$guesthouse->name.' in Himmafushi, Maldives.'">
+<x-layouts.app
+    :title="$guesthouse->name.' | Himmafushi Guesthouse'"
+    :description="$guesthouse->excerpt ?: str(strip_tags($guesthouse->description ?: ''))->limit(160) ?: 'Request a stay at '.$guesthouse->name.' in Himmafushi, Maldives.'"
+    :image="$guesthouse->image ?: data_get($guesthouse->gallery, 0)"
+    :image-alt="$guesthouse->name.' guesthouse in Himmafushi, Maldives'"
+    type="website"
+>
     <section class="detail-hero">
         @if($guesthouse->image)<img src="{{ asset('storage/'.$guesthouse->image) }}" alt="{{ $guesthouse->name }}" loading="eager">@endif
         <div class="page-shell"><p class="eyebrow">Island stay</p><h1>{{ $guesthouse->name }}</h1><p>{{ $guesthouse->address ?: 'Himmafushi, Maldives' }}</p></div>

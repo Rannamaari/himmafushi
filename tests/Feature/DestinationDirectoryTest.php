@@ -133,6 +133,29 @@ class DestinationDirectoryTest extends TestCase
         $this->get(route('guesthouses.show', $guesthouse))->assertOk()->assertSee('Stay three nights, save 10%')->assertSee('USD 270')->assertDontSee('Expired offer');
     }
 
+    public function test_listing_pages_use_their_own_social_preview_images(): void
+    {
+        $guesthouse = Guesthouse::create([
+            'name' => 'Social Preview Stay', 'slug' => 'social-preview-stay',
+            'excerpt' => 'A memorable stay in Himmafushi.', 'image' => 'guesthouses/social-preview.jpg', 'active' => true,
+        ]);
+        $category = BusinessCategory::create(['name' => 'Restaurant', 'slug' => 'restaurant']);
+        $business = Business::create([
+            'business_category_id' => $category->id, 'name' => 'Social Preview Cafe', 'slug' => 'social-preview-cafe',
+            'short_description' => 'Island food beside the harbour.', 'cover_image' => 'businesses/covers/social-preview.jpg', 'active' => true,
+        ]);
+
+        $this->get(route('guesthouses.show', $guesthouse))
+            ->assertOk()
+            ->assertSee(asset('storage/guesthouses/social-preview.jpg'), false)
+            ->assertSee('Social Preview Stay guesthouse in Himmafushi, Maldives');
+
+        $this->get(route('restaurants.show', $business))
+            ->assertOk()
+            ->assertSee(asset('storage/businesses/covers/social-preview.jpg'), false)
+            ->assertSee('property="og:type" content="business.business"', false);
+    }
+
     public function test_homepage_shows_current_featured_content_and_hides_future_advertisements(): void
     {
         Activity::create(['name' => 'Lagoon Snorkeling', 'slug' => 'lagoon-snorkeling', 'short_description' => 'A guided lagoon trip.', 'featured' => true, 'featured_order' => 10, 'active' => true]);

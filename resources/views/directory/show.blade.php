@@ -1,6 +1,9 @@
 <x-layouts.app
     :title="$business->name.($business->category->slug === 'restaurant' ? ' - Menu & Information | Himmafushi' : ' | Himmafushi Maldives')"
     :description="$business->short_description ?: 'Information for '.$business->name.' in Himmafushi.'"
+    :image="$business->cover_image ?: $business->image ?: data_get($business->gallery, 0)"
+    :image-alt="$business->name.' in Himmafushi, Maldives'"
+    type="business.business"
 >
     <section class="detail-hero">
         @if ($business->cover_image)
