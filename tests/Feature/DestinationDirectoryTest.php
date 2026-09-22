@@ -133,6 +133,35 @@ class DestinationDirectoryTest extends TestCase
         $this->get(route('guesthouses.show', $guesthouse))->assertOk()->assertSee('Stay three nights, save 10%')->assertSee('USD 270')->assertDontSee('Expired offer');
     }
 
+    public function test_guesthouse_best_rate_request_only_requires_whatsapp_contact_details(): void
+    {
+        Http::fake();
+        $guesthouse = Guesthouse::create(['name' => 'Easy Request Stay', 'slug' => 'easy-request-stay', 'active' => true]);
+
+        $this->get(route('guesthouses.request', $guesthouse))
+            ->assertOk()
+            ->assertSee('WhatsApp phone number')
+            ->assertSee('Nationality')
+            ->assertDontSee('Check-in');
+
+        $this->post(route('guesthouse-bookings.store'), [
+            'guesthouse_id' => $guesthouse->id,
+            'name' => 'Test Guest',
+            'whatsapp' => '+960 7000000',
+            'country' => 'Maldives',
+            'notes' => 'Travelling next month.',
+        ])->assertSessionHas('success');
+
+        $this->assertDatabaseHas('guesthouse_booking_requests', [
+            'guesthouse_id' => $guesthouse->id,
+            'name' => 'Test Guest',
+            'whatsapp' => '+960 7000000',
+            'country' => 'Maldives',
+            'check_in' => null,
+            'check_out' => null,
+        ]);
+    }
+
     public function test_listing_pages_use_their_own_social_preview_images(): void
     {
         $guesthouse = Guesthouse::create([

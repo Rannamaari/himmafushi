@@ -13,7 +13,9 @@ class GuesthouseBookingController extends Controller
     public function store(StoreGuesthouseBookingRequest $request, BookingTelegramNotifier $notifier): RedirectResponse
     {
         $data = $request->validated();
-        $data['children'] = $data['children'] ?? 0;
+        $data['customer_type'] = 'tourist';
+        $data['adults'] = 1;
+        $data['children'] = 0;
         $booking = GuesthouseBookingRequest::create($data);
 
         try {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Support\Countries;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -16,17 +17,9 @@ class StoreGuesthouseBookingRequest extends FormRequest
     {
         return [
             'guesthouse_id' => ['nullable', 'exists:guesthouses,id'],
-            'customer_type' => ['required', Rule::in(['local', 'tourist'])],
             'name' => ['required', 'string', 'max:120'],
-            'whatsapp' => ['required', 'string', 'max:40'],
-            'email' => ['nullable', 'email', 'max:255'],
-            'country' => ['nullable', 'string', 'max:100'],
-            'check_in' => ['required', 'date', 'after_or_equal:today'],
-            'check_out' => ['required', 'date', 'after:check_in'],
-            'adults' => ['required', 'integer', 'min:1', 'max:20'],
-            'children' => ['nullable', 'integer', 'min:0', 'max:10'],
-            'room_preference' => ['nullable', 'string', 'max:255'],
-            'meal_plan' => ['nullable', 'string', 'max:100'],
+            'whatsapp' => ['required', 'string', 'max:40', 'regex:/^[0-9+() .-]{6,40}$/'],
+            'country' => ['required', 'string', 'max:100', Rule::in(array_keys(Countries::all()))],
             'notes' => ['nullable', 'string', 'max:2000'],
         ];
     }

@@ -3,7 +3,7 @@
     <section class="section"><div class="page-shell"><div class="card-grid">
         @forelse($guesthouses as $guesthouse)
             <article class="listing-card listing-card-clickable">
-                <div class="listing-image">@if($guesthouse->image)<img src="{{ asset('storage/'.$guesthouse->image) }}" alt="{{ $guesthouse->name }}" loading="lazy">@else<span>Himmafushi stay</span>@endif</div>
+                <div class="listing-image">@if($guesthouse->image)<img src="{{ asset('storage/'.$guesthouse->image) }}" alt="{{ $guesthouse->name }}" loading="lazy">@else<span>Himmafushi stay</span>@endif<a class="listing-card-rate-cta" href="{{ route('guesthouses.request', $guesthouse) }}">Request best rate</a></div>
                 <div class="listing-body">
                     @if($guesthouse->featured)<p class="eyebrow">Featured</p>@endif
                     <h2>{{ $guesthouse->name }}</h2>

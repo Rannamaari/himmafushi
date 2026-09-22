@@ -18,33 +18,16 @@ class GuesthouseBookingRequestsTable
                     ->searchable(),
                 TextColumn::make('guesthouse.name')
                     ->searchable(),
-                TextColumn::make('customer_type')
-                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('whatsapp')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
                 TextColumn::make('country')
+                    ->label('Nationality')
                     ->searchable(),
-                TextColumn::make('check_in')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('check_out')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('adults')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('children')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('room_preference')
-                    ->searchable(),
-                TextColumn::make('meal_plan')
-                    ->searchable(),
+                TextColumn::make('notes')
+                    ->limit(45)
+                    ->wrap(),
                 TextColumn::make('status')
                     ->searchable(),
                 TextColumn::make('quote_amount')
@@ -53,9 +36,9 @@ class GuesthouseBookingRequestsTable
                 TextColumn::make('quote_currency')
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label('Requested')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

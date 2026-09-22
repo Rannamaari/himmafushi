@@ -56,21 +56,14 @@ class BookingTelegramNotifier
             "<b>Reference:</b> {$this->h($booking->reference)}\n".
             "<b>Guesthouse:</b> {$this->h($booking->guesthouse?->name ?: 'Any Guesthouse')}\n\n".
             "<b>Customer:</b> {$this->h($booking->name)}\n".
-            "<b>Type:</b> {$this->h(strtoupper($booking->customer_type))}\n".
             "<b>WhatsApp:</b> {$this->h($booking->whatsapp)}\n".
-            "<b>Country:</b> {$this->h($booking->country ?: '-')}\n\n".
-            "<b>Check-in:</b> {$booking->check_in->format('d M Y')}\n".
-            "<b>Check-out:</b> {$booking->check_out->format('d M Y')}\n\n".
-            "<b>Adults:</b> {$booking->adults}\n".
-            "<b>Children:</b> {$booking->children}\n".
-            "<b>Room:</b> {$this->h($booking->room_preference ?: '-')}\n".
-            "<b>Meal Plan:</b> {$this->h($booking->meal_plan ?: '-')}\n\n".
+            "<b>Nationality:</b> {$this->h($booking->country ?: '-')}\n\n".
             "<b>Notes:</b>\n{$this->h($booking->notes ?: '-')}";
 
         $whatsappMessage =
             "Hello {$booking->name}, we have received your Himmafushi accommodation request. ".
             "Your reference is {$booking->reference}. ".
-            'We are checking the best available rate for your dates.';
+            'We will contact you here shortly to confirm your dates and find the best available rate.';
 
         $this->telegram->send(SiteSetting::configuredValue('telegram_guesthouse_chat_id', config('services.telegram.guesthouse_chat_id')), $message, [
             [

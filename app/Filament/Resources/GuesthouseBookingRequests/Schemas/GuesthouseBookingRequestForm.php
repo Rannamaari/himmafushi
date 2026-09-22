@@ -28,9 +28,9 @@ class GuesthouseBookingRequestForm
                     ->email(),
                 TextInput::make('country'),
                 DatePicker::make('check_in')
-                    ->required(),
+                    ->label('Check-in (collected on WhatsApp)'),
                 DatePicker::make('check_out')
-                    ->required(),
+                    ->label('Check-out (collected on WhatsApp)'),
                 TextInput::make('adults')
                     ->required()
                     ->numeric()
