@@ -16,9 +16,13 @@
 
     <section class="section">
         <div class="page-shell detail-grid">
-            <article class="prose">
+            <article class="prose article-body">
                 <h2>About {{ $business->name }}</h2>
-                <p>{{ $business->description ?: 'More information will be added by this local business soon.' }}</p>
+                @if($business->description)
+                    {!! $business->description !!}
+                @else
+                    <p>More information will be added by this local business soon.</p>
+                @endif
 
                 @if ($business->menuCategories->isNotEmpty())
                     <h2>Menu</h2>
@@ -73,6 +77,13 @@
                 </div>
             </aside>
         </div>
+
+        @if(filled($business->gallery))
+            <section class="page-shell listing-gallery" aria-labelledby="business-gallery-title">
+                <div><p class="eyebrow">Gallery</p><h2 id="business-gallery-title">Photos of {{ $business->name }}</h2></div>
+                <div class="listing-gallery-grid">@foreach($business->gallery as $photo)<a href="{{ asset('storage/'.$photo) }}" target="_blank" rel="noopener"><img src="{{ asset('storage/'.$photo) }}" alt="{{ $business->name }} photo {{ $loop->iteration }}" loading="lazy"></a>@endforeach</div>
+            </section>
+        @endif
 
         @if ($business->latitude !== null && $business->longitude !== null)
             @php

@@ -16,8 +16,8 @@ class BusinessesTable
     {
         return $table
             ->columns([
-                TextColumn::make('business_category_id')
-                    ->numeric()
+                TextColumn::make('category.name')
+                    ->label('Category')
                     ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
@@ -42,8 +42,8 @@ class BusinessesTable
                     ->sortable(),
                 TextColumn::make('price_range')
                     ->searchable(),
-                ImageColumn::make('image'),
-                ImageColumn::make('cover_image'),
+                ImageColumn::make('image')->disk('public'),
+                ImageColumn::make('cover_image')->disk('public'),
                 IconColumn::make('delivery_available')
                     ->boolean(),
                 IconColumn::make('takeaway_available')
@@ -52,6 +52,9 @@ class BusinessesTable
                     ->boolean(),
                 IconColumn::make('featured')
                     ->boolean(),
+                TextColumn::make('display_priority')
+                    ->label('Priority')
+                    ->sortable(),
                 IconColumn::make('active')
                     ->boolean(),
                 TextColumn::make('latitude')
@@ -69,6 +72,7 @@ class BusinessesTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('display_priority', 'desc')
             ->filters([
                 //
             ])

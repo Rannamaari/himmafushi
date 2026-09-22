@@ -12,13 +12,13 @@ class Business extends Model
 {
     protected $fillable = [
         'business_category_id', 'name', 'slug', 'short_description', 'description', 'phone', 'whatsapp', 'email', 'address',
-        'opening_time', 'closing_time', 'price_range', 'image', 'cover_image', 'delivery_available', 'takeaway_available',
+        'opening_time', 'closing_time', 'price_range', 'image', 'cover_image', 'gallery', 'display_priority', 'delivery_available', 'takeaway_available',
         'dine_in_available', 'featured', 'featured_order', 'featured_from', 'featured_until', 'active', 'latitude', 'longitude', 'google_maps_url',
     ];
 
     protected function casts(): array
     {
-        return ['opening_time' => 'datetime:H:i', 'closing_time' => 'datetime:H:i', 'delivery_available' => 'boolean', 'takeaway_available' => 'boolean', 'dine_in_available' => 'boolean', 'featured' => 'boolean', 'featured_from' => 'datetime', 'featured_until' => 'datetime', 'active' => 'boolean'];
+        return ['opening_time' => 'datetime:H:i', 'closing_time' => 'datetime:H:i', 'gallery' => 'array', 'display_priority' => 'integer', 'delivery_available' => 'boolean', 'takeaway_available' => 'boolean', 'dine_in_available' => 'boolean', 'featured' => 'boolean', 'featured_from' => 'datetime', 'featured_until' => 'datetime', 'active' => 'boolean'];
     }
 
     protected static function booted(): void

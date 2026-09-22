@@ -11,11 +11,14 @@ class Guesthouse extends Model
     protected $fillable = [
         'name',
         'slug',
+        'excerpt',
         'description',
         'address',
         'phone',
         'email',
         'image',
+        'gallery',
+        'display_priority',
         'local_rate_from',
         'tourist_rate_from',
         'featured',
@@ -29,6 +32,8 @@ class Guesthouse extends Model
     {
         return [
             'featured' => 'boolean',
+            'gallery' => 'array',
+            'display_priority' => 'integer',
             'featured_start_at' => 'datetime',
             'featured_end_at' => 'datetime',
             'active' => 'boolean',

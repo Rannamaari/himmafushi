@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Businesses\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -24,8 +25,17 @@ class BusinessForm
                     ->required(),
                 TextInput::make('slug')
                     ->required(),
-                TextInput::make('short_description'),
-                Textarea::make('description')
+                Textarea::make('short_description')
+                    ->label('Short excerpt')
+                    ->rows(3)
+                    ->maxLength(240)
+                    ->helperText('Shown on directory cards and search results.')
+                    ->columnSpanFull(),
+                RichEditor::make('description')
+                    ->label('Full business information')
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('businesses/content')
+                    ->fileAttachmentsVisibility('public')
                     ->columnSpanFull(),
                 TextInput::make('phone')
                     ->tel(),
@@ -38,13 +48,47 @@ class BusinessForm
                 TimePicker::make('closing_time'),
                 TextInput::make('price_range'),
                 FileUpload::make('image')
+                    ->label('Listing image')
                     ->image()
                     ->disk('public')
-                    ->directory('businesses'),
+                    ->directory('businesses')
+                    ->visibility('public')
+                    ->imageEditor()
+                    ->openable()
+                    ->downloadable()
+                    ->maxSize(8192),
                 FileUpload::make('cover_image')
+                    ->label('Page cover image')
                     ->image()
                     ->disk('public')
-                    ->directory('businesses/covers'),
+                    ->directory('businesses/covers')
+                    ->visibility('public')
+                    ->imageEditor()
+                    ->openable()
+                    ->downloadable()
+                    ->maxSize(8192),
+                FileUpload::make('gallery')
+                    ->label('Photo gallery')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->appendFiles()
+                    ->disk('public')
+                    ->directory('businesses/gallery')
+                    ->visibility('public')
+                    ->imageEditor()
+                    ->openable()
+                    ->downloadable()
+                    ->maxFiles(16)
+                    ->maxSize(8192)
+                    ->helperText('Upload up to 16 photos. Drag to set their display order.')
+                    ->columnSpanFull(),
+                TextInput::make('display_priority')
+                    ->label('Display priority')
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(0)
+                    ->helperText('Higher numbers appear first in this business category.'),
                 Toggle::make('delivery_available')
                     ->required(),
                 Toggle::make('takeaway_available')

@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,6 +16,7 @@ class GuesthousesTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')->disk('public')->label('Photo'),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('slug')
@@ -34,6 +36,9 @@ class GuesthousesTable
                     ->sortable(),
                 IconColumn::make('featured')
                     ->boolean(),
+                TextColumn::make('display_priority')
+                    ->label('Priority')
+                    ->sortable(),
                 IconColumn::make('active')
                     ->boolean(),
                 TextColumn::make('created_at')
@@ -45,6 +50,7 @@ class GuesthousesTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('display_priority', 'desc')
             ->filters([
                 //
             ])

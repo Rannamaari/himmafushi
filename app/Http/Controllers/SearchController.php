@@ -31,9 +31,9 @@ class SearchController extends Controller
             }
         });
 
-        $guesthouses = $matches(Guesthouse::query()->where('active', true), ['name', 'description', 'address'])
+        $guesthouses = $matches(Guesthouse::query()->where('active', true), ['name', 'excerpt', 'description', 'address'])
             ->get()
-            ->map(fn (Guesthouse $guesthouse) => $this->result('Stay', 1, $guesthouse->name, $guesthouse->description ?: $guesthouse->address ?: 'Island accommodation in Himmafushi.', route('guesthouses.show', $guesthouse)));
+            ->map(fn (Guesthouse $guesthouse) => $this->result('Stay', 1, $guesthouse->name, $guesthouse->excerpt ?: strip_tags($guesthouse->description ?: '') ?: $guesthouse->address ?: 'Island accommodation in Himmafushi.', route('guesthouses.show', $guesthouse)));
 
         $businesses = $matches(Business::public()->with('category'), ['name', 'short_description', 'description', 'address'])
             ->get()

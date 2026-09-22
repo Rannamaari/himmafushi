@@ -50,7 +50,7 @@ Route::post('/transfer-bookings', [TransferBookingController::class, 'store'])
 
 Route::get('/guesthouses', function () {
     return view('guesthouses.index', [
-        'guesthouses' => Guesthouse::query()->where('active', true)->orderByDesc('featured')->orderBy('name')->get(),
+        'guesthouses' => Guesthouse::query()->where('active', true)->orderByDesc('display_priority')->orderByDesc('featured')->orderBy('name')->get(),
     ]);
 })->name('guesthouses.index');
 
