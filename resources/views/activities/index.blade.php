@@ -25,7 +25,7 @@
 
     <section id="excursion-prices" class="section activity-catalogue">
         <div class="page-shell">
-            <div class="activity-catalogue-heading"><div><p class="eyebrow">Current excursion list · USD per person</p><h2>Pick your kind of day</h2><p>Prices below are transcribed from the Ocean Monkey price list you provided. Select an activity to send an advance booking enquiry. Availability, inclusions and final price are confirmed with the operator.</p></div><div class="activity-price-note"><strong>Going with a group?</strong><span>Per-person rates reduce for larger groups on many trips.</span></div></div>
+            <div class="activity-catalogue-heading"><div><p class="eyebrow">Current excursion list · USD per person</p><h2>Pick your kind of day</h2><p>Choose an excursion and send us a booking request. We’ll check availability and confirm the details and price with Ocean Monkey.</p></div><div class="activity-price-note"><strong>Going with a group?</strong><span>Per-person rates reduce for larger groups on many trips.</span></div></div>
 
             @php($groupedActivities = $activities->groupBy(fn ($activity) => $activity->category ?: 'Other experiences'))
             @forelse($groupedActivities as $category => $items)
