@@ -22,7 +22,16 @@ class ArticleForm
             RichEditor::make('body')->required()->fileAttachmentsDisk('public')->fileAttachmentsDirectory('articles/content')->columnSpanFull(),
             FileUpload::make('image')->image()->disk('public')->directory('articles'),
             TextInput::make('seo_title'), Textarea::make('seo_description')->maxLength(500),
-            DateTimePicker::make('published_at'), Toggle::make('featured')->required(), Toggle::make('active')->required(),
+            DateTimePicker::make('published_at')
+                ->default(now())
+                ->seconds(false)
+                ->helperText('Posts appear on the website when this date and time has arrived. Set a future time to schedule a post.'),
+            Toggle::make('featured')->required(),
+            Toggle::make('active')
+                ->label('Visible on website')
+                ->default(true)
+                ->required()
+                ->helperText('Turn this off to keep the post hidden from visitors.'),
         ]);
     }
 }
