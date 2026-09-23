@@ -18,6 +18,7 @@ class ActivitiesTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+                TextColumn::make('category')->badge()->searchable(),
                 TextColumn::make('slug')
                     ->searchable(),
                 TextColumn::make('short_description')
@@ -45,6 +46,7 @@ class ActivitiesTable
                     ->boolean(),
                 IconColumn::make('booking_available')
                     ->boolean(),
+                IconColumn::make('partner_excursion')->label('Ocean Monkey')->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

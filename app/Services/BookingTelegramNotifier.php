@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ActivityBookingRequest;
 use App\Models\GuesthouseBookingRequest;
 use App\Models\SiteSetting;
 use App\Models\TransferBooking;
@@ -71,6 +72,34 @@ class BookingTelegramNotifier
                 ['text' => '⚙️ Open Request', 'url' => config('app.url')."/admin/guesthouse-booking-requests/{$booking->id}/edit"],
             ],
         ]);
+    }
+
+    public function activity(ActivityBookingRequest $booking): void
+    {
+        $booking->loadMissing('activity');
+        $message =
+            "<b>🌊 NEW EXCURSION BOOKING REQUEST</b>\n\n".
+            "<b>Reference:</b> {$this->h($booking->reference)}\n".
+            "<b>Activity:</b> {$this->h($booking->activity_name)}\n".
+            "<b>Date:</b> {$booking->preferred_date->format('d M Y')}\n".
+            "<b>Guests:</b> {$booking->participants}\n".
+            "<b>Name:</b> {$this->h($booking->name)}\n".
+            "<b>WhatsApp:</b> {$this->h($booking->whatsapp)}\n".
+            "<b>Nationality:</b> {$this->h($booking->nationality ?: '-')}\n".
+            "<b>Estimated total:</b> {$this->h($booking->currency)} {$this->h($booking->estimated_total ? number_format((float) $booking->estimated_total, 2) : 'Confirm with operator')}\n\n".
+            "<b>Notes:</b>\n{$this->h($booking->notes ?: '-')}";
+
+        $whatsappMessage = "Hello {$booking->name}, we received your advance booking request for {$booking->activity_name} on {$booking->preferred_date->format('d M Y')}. We will confirm availability and the special rate shortly. Reference: {$booking->reference}.";
+
+        $chatId = SiteSetting::configuredValue(
+            'telegram_excursion_chat_id',
+            SiteSetting::configuredValue('telegram_guesthouse_chat_id', config('services.telegram.guesthouse_chat_id')),
+        );
+
+        $this->telegram->send($chatId, $message, [[
+            ['text' => '💬 WhatsApp Guest', 'url' => $booking->whatsappUrl($whatsappMessage)],
+            ['text' => '⚙️ Open Request', 'url' => config('app.url')."/admin/activity-booking-requests/{$booking->id}/edit"],
+        ]]);
     }
 
     private function h(?string $value): string

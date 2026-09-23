@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityBookingController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\ExperiencePageController;
@@ -84,5 +85,6 @@ Route::get('/wellness', [DirectoryController::class, 'index'])->defaults('catego
 Route::get('/wellness/{business:slug}', [DirectoryController::class, 'show'])->defaults('category', 'wellness')->name('wellness.show');
 Route::get('/barbers', [DirectoryController::class, 'index'])->defaults('category', 'barber')->name('barbers.index');
 Route::get('/barbers/{business:slug}', [DirectoryController::class, 'show'])->defaults('category', 'barber')->name('barbers.show');
-Route::get('/activities', fn () => view('activities.index', ['activities' => Activity::query()->where('active', true)->orderByDesc('featured')->orderBy('name')->paginate(12)]))->name('activities.index');
+Route::get('/activities', fn () => view('activities.index', ['activities' => Activity::query()->where('active', true)->where('booking_available', true)->where('partner_excursion', true)->orderByRaw("CASE category WHEN 'Surfing' THEN 1 WHEN 'Snorkelling' THEN 2 WHEN 'Fishing' THEN 3 WHEN 'Cruises' THEN 4 WHEN 'Island Hopping' THEN 5 WHEN 'Packages' THEN 6 ELSE 7 END")->orderByDesc('featured_order')->orderBy('id')->get()]))->name('activities.index');
+Route::post('/activity-bookings', [ActivityBookingController::class, 'store'])->middleware('throttle:10,1')->name('activity-bookings.store');
 Route::get('/deals', fn () => view('deals.index', ['deals' => Deal::query()->where('active', true)->with(['business', 'guesthouse'])->orderByDesc('featured')->latest()->paginate(12)]))->name('deals.index');
