@@ -5,7 +5,7 @@
             <h1>HIMMAFUSHI</h1>
             <p class="hero-tagline">Stay. Eat. Shop. Explore.</p>
             <p class="hero-copy">Your local guide to island stays, ocean adventures and the easiest way to get here.</p>
-            <div class="hero-actions"><a class="button button-light" href="#discover">Discover the island</a><a class="button button-outline-light" href="{{ route('transfers.index') }}">Plan your transfer</a></div>
+            <div class="hero-actions"><a class="button button-light" href="{{ route('activities.index') }}">Things to do</a><a class="button button-outline-light" href="{{ route('transfers.index') }}">Plan your transfer</a></div>
         </div>
     </section>
 
