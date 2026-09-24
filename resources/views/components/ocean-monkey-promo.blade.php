@@ -1,6 +1,6 @@
 <section class="ocean-monkey-band" aria-label="Book excursions through Himmafushi.travel">
     <div class="page-shell ocean-monkey-inner">
-        <img src="{{ asset('images/ocean-monkey-logo.png') }}" alt="Ocean Monkey Himmafushi" width="1024" height="1024" loading="lazy">
+        <img src="{{ asset('images/ocean-monkey-logo.png') }}" alt="Ocean Monkey Himmafushi" width="900" height="755" loading="lazy">
         <div>
             <p class="eyebrow">Our local excursion partner</p>
             <h2>Ocean Monkey Himmafushi</h2>

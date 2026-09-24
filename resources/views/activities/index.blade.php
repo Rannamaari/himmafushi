@@ -17,7 +17,7 @@
 
     <section class="ocean-monkey-band">
         <div class="page-shell ocean-monkey-inner">
-            <img src="{{ asset('images/ocean-monkey-logo.png') }}" alt="Ocean Monkey Himmafushi logo" width="1024" height="1024" loading="lazy">
+            <img src="{{ asset('images/ocean-monkey-logo.png') }}" alt="Ocean Monkey Himmafushi logo" width="900" height="755" loading="lazy">
             <div><p class="eyebrow">Our local excursion partner</p><h2>Ocean Monkey Himmafushi</h2><p>Book through us in advance. We will coordinate with Ocean Monkey, check your preferred date, and ask about any available special rate before confirming.</p></div>
             <a class="text-link" href="https://wa.me/9607779493?text={{ urlencode('Hello, I would like to ask about Ocean Monkey excursions in Himmafushi and any available special rates.') }}" target="_blank" rel="noopener">Ask about special rates <span aria-hidden="true">→</span></a>
         </div>
