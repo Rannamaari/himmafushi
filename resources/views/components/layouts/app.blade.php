@@ -9,13 +9,24 @@
 ])
 @php
     $canonicalUrl = $canonical ?: url()->current();
-    $socialImage = $image ? (str_starts_with($image, 'http') ? $image : asset('storage/'.$image)) : asset('images/himmafushi-hero.png');
     $socialImageAlt = $imageAlt ?: 'Discover Himmafushi, Maldives';
     $websiteSchema = [
         '@context' => 'https://schema.org', '@type' => 'WebSite', 'name' => 'Himmafushi',
         'url' => route('home'), 'description' => $description,
         'potentialAction' => ['@type' => 'SearchAction', 'target' => route('search').'?q={search_term_string}', 'query-input' => 'required name=search_term_string'],
     ];
+@endphp
+@php
+    $socialImagePath = null;
+    if ($image && preg_match('/^https?:\/\//i', $image)) {
+        $socialImage = $image;
+    } else {
+        $relativeImage = ltrim($image ?: 'images/himmafushi-hero.png', '/');
+        $imageIsPublic = str_starts_with($relativeImage, 'images/');
+        $socialImage = asset($imageIsPublic ? $relativeImage : 'storage/'.$relativeImage);
+        $socialImagePath = public_path($imageIsPublic ? $relativeImage : 'storage/'.$relativeImage);
+    }
+    $socialImageSize = $socialImagePath && is_file($socialImagePath) ? getimagesize($socialImagePath) : false;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +52,7 @@
     <meta property="og:image" content="{{ $socialImage }}">
     <meta property="og:image:secure_url" content="{{ $socialImage }}">
     <meta property="og:image:alt" content="{{ $socialImageAlt }}">
+    @if($socialImageSize)<meta property="og:image:type" content="{{ $socialImageSize['mime'] }}"><meta property="og:image:width" content="{{ $socialImageSize[0] }}"><meta property="og:image:height" content="{{ $socialImageSize[1] }}">@endif
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $title }}">
     <meta name="twitter:description" content="{{ $description }}">

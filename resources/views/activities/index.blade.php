@@ -1,9 +1,20 @@
 <x-layouts.app
-    title="Things to Do in Himmafushi | Excursion Prices & Advance Booking"
-    description="Explore Himmafushi surf trips, snorkelling, island hopping, fishing and sandbank packages. See Ocean Monkey prices and request an advance booking with local help."
+    title="Things to Do in Himmafushi | Tours & Excursion Prices"
+    description="Book Himmafushi surf trips, snorkelling, fishing, sandbank visits and island hopping. Compare Ocean Monkey prices and request through our local team."
     :image="'images/himmafushi-hero.png'"
     image-alt="Himmafushi island and lagoon, home to Ocean Monkey excursions"
 >
+    @php
+        $activityBreadcrumbs = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Things to do', 'item' => route('activities.index')],
+            ],
+        ];
+    @endphp
+    @push('structured-data')<script type="application/ld+json">{!! json_encode($activityBreadcrumbs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>@endpush
     <section class="activities-hero">
         <img src="{{ asset('images/himmafushi-hero.png') }}" alt="The turquoise lagoon around Himmafushi" fetchpriority="high">
         <div class="activities-hero-shade"></div>
@@ -19,7 +30,7 @@
         <div class="page-shell ocean-monkey-inner">
             <img src="{{ asset('images/ocean-monkey-logo-color.png') }}" alt="Ocean Monkey Himmafushi logo" width="900" height="755" loading="lazy">
             <div><p class="eyebrow">Our local excursion partner</p><h2>Ocean Monkey Himmafushi</h2><p>Book through us in advance. We will coordinate with Ocean Monkey, check your preferred date, and ask about any available special rate before confirming.</p></div>
-            <a class="text-link" href="https://wa.me/9607779493?text={{ urlencode('Hello, I would like to ask about Ocean Monkey excursions in Himmafushi and any available special rates.') }}" target="_blank" rel="noopener">Ask about special rates <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="#book-experience">Request special rates <span aria-hidden="true">→</span></a>
         </div>
     </section>
 
