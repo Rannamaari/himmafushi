@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="Atolliva Maldives | Our Story & Vision"
-    description="Meet Atolliva Maldives and discover the vision behind Himmafushi.travel: thoughtful local island guidance, easier trip planning, and more visibility for island businesses."
+    title="About Us | Atolliva Maldives Story & Vision"
+    description="Learn about Atolliva Maldives and the vision behind Himmafushi.travel: thoughtful local island guidance, easier trip planning, and more visibility for island businesses."
     :image="'images/himmafushi-hero.png'"
     image-alt="Himmafushi lagoon, the first destination in the new Himmafushi.travel guide from Atolliva Maldives"
 >
@@ -10,7 +10,7 @@
             '@type' => 'BreadcrumbList',
             'itemListElement' => [
                 ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Atolliva Maldives', 'item' => route('atolliva')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'About Us', 'item' => route('about')],
             ],
         ];
     @endphp
@@ -20,7 +20,7 @@
         <div class="atolliva-hero-shade"></div>
         <div class="page-shell atolliva-hero-content">
             <p class="eyebrow light">A Maldives-based travel team</p>
-            <h1>Atolliva Maldives</h1>
+            <h1>About Atolliva Maldives</h1>
             <p class="atolliva-hero-lead">Thoughtful travel begins with knowing the place. We are building Himmafushi.travel as a new destination guide to help visitors and local businesses find each other.</p>
             <div class="atolliva-hero-actions">
                 <a class="button" href="https://atollivamaldives.com" target="_blank" rel="noopener">Visit AtollivaMaldives.com <span aria-hidden="true">↗</span></a>

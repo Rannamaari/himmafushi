@@ -17,7 +17,7 @@ class NavigationItemSeeder extends Seeder
             ['shops', 'Shops', 'shops.index', 'shops.*', 'link', null, 50, true],
             ['wellness', 'Wellness', 'wellness.index', 'wellness.*', 'link', null, 60, true],
             ['deals', 'Deals', 'deals.index', 'deals.*', 'link', null, 70, true],
-            ['atolliva-maldives', 'Atolliva Maldives', 'atolliva', 'atolliva', 'link', null, 80, true],
+            ['atolliva-maldives', 'About Us', 'about', 'about', 'link', null, 80, true],
             ['news', 'News', 'news.index', 'news.*', 'link', null, 90, false],
         ];
 
