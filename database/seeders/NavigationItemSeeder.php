@@ -17,7 +17,8 @@ class NavigationItemSeeder extends Seeder
             ['shops', 'Shops', 'shops.index', 'shops.*', 'link', null, 50, true],
             ['wellness', 'Wellness', 'wellness.index', 'wellness.*', 'link', null, 60, true],
             ['deals', 'Deals', 'deals.index', 'deals.*', 'link', null, 70, true],
-            ['news', 'News', 'news.index', 'news.*', 'link', null, 80, false],
+            ['atolliva-maldives', 'Atolliva Maldives', 'atolliva', 'atolliva', 'link', null, 80, true],
+            ['news', 'News', 'news.index', 'news.*', 'link', null, 90, false],
         ];
 
         foreach ($items as [$key, $label, $route, $pattern, $style, $heading, $order, $desktop]) {

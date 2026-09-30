@@ -144,3 +144,39 @@ body.is-locked { overflow: hidden; }
 @media (min-width: 700px) { .home-search-wrap { grid-template-columns: minmax(0, 1fr) auto; }.featured-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 260px; }.featured-bento-item { min-height: 0; }.featured-bento-item-1 { grid-row: span 2; }.story-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }.stay-carousel { grid-auto-columns: min(38vw, 370px); } }
 @media (min-width: 1000px) { .home-section-heading h2, .travel-intro h2 { font-size: 4.3rem; }.featured-bento { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 220px; }.featured-bento-item-1 { grid-column: span 2; grid-row: span 2; }.featured-bento-item-2, .featured-bento-item-3 { grid-column: span 2; }.featured-bento-item-1 .featured-bento-content h3 { font-size: 2.1rem; }.travel-layout { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 6rem; }.travel-intro { position: sticky; top: 120px; }.stay-carousel { grid-auto-columns: min(30vw, 370px); } }
 @media (max-width: 560px) { .home-search label { font-size: 1.2rem; }.home-search > div { display: grid; }.home-search .button { min-height: 48px; }.home-section-heading { display: block; }.home-section-heading > .text-link { display: inline-block; margin-top: 1rem; }.home-hero .hero-content { padding-bottom: 7rem; }.stay-card-actions { align-items: stretch; flex-direction: column; }.stay-card-actions .button { width: 100%; }.ad-slot-content h2 { font-size: 1.8rem; } }
+
+/* Atolliva story page */
+.atolliva-hero { position: relative; display: grid; min-height: min(700px, 82vh); align-items: end; overflow: hidden; background: #123f46; color: white; }
+.atolliva-hero > img, .atolliva-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.atolliva-hero > img { object-fit: cover; object-position: center 52%; }
+.atolliva-hero-shade { background: linear-gradient(90deg, rgb(8 35 41 / .9), rgb(8 35 41 / .12) 88%), linear-gradient(0deg, rgb(8 35 41 / .42), transparent 72%); }
+.atolliva-hero-content { position: relative; z-index: 1; padding-top: 8rem; padding-bottom: 5rem; }
+.atolliva-hero h1 { max-width: 900px; margin-top: .5rem; color: white; font-size: 5.3rem; font-weight: 800; line-height: .94; }
+.atolliva-hero-lead { max-width: 680px; margin-top: 1.2rem; color: #e0eeeb; font-size: 1.1rem; line-height: 1.7; }
+.atolliva-hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.6rem; }
+.atolliva-intro-grid, .atolliva-partner-layout { display: grid; gap: 1.5rem; align-items: start; }
+.atolliva-intro-grid h2, .atolliva-section-heading h2, .atolliva-partner-layout h2 { max-width: 680px; color: #17383c; font-size: 2.7rem; font-weight: 800; line-height: 1.02; }
+.atolliva-intro-grid > div:last-child { max-width: 670px; color: #526e6d; line-height: 1.8; }
+.atolliva-intro-grid > div:last-child p + p { margin-top: 1rem; }
+.atolliva-vision-section { background: #edf5f2; }
+.atolliva-section-heading { margin-bottom: 1.5rem; }
+.atolliva-vision-list { border-top: 1px solid #c8dad5; }
+.atolliva-vision-list article { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 1rem; border-bottom: 1px solid #c8dad5; padding: 1.4rem 0; }
+.atolliva-vision-list article > span, .atolliva-how-grid article > span { color: #db6945; font-size: .75rem; font-weight: 800; }
+.atolliva-vision-list h3, .atolliva-how-grid h3 { color: #17383c; font-size: 1.15rem; font-weight: 800; }
+.atolliva-vision-list p { max-width: 710px; margin-top: .4rem; color: #5a7472; line-height: 1.6; }
+.atolliva-how-section { background: #123f46; color: white; padding: 5rem 0; }
+.atolliva-how-section > .page-shell > h2 { max-width: 700px; color: white; font-size: 2.7rem; font-weight: 800; line-height: 1; }
+.atolliva-how-grid { display: grid; gap: 2rem; margin-top: 2.5rem; }
+.atolliva-how-grid article { border-top: 1px solid rgb(224 238 235 / .28); padding-top: 1rem; }
+.atolliva-how-grid h3 { margin-top: .8rem; color: white; font-size: 1.25rem; }
+.atolliva-how-grid article > p { max-width: 340px; margin-top: .55rem; color: #c6ded9; line-height: 1.6; }
+.atolliva-partner-actions { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; }
+.atolliva-partner-actions .text-link { color: #c95737; font-weight: 800; }
+.atolliva-backlink-section { background: #dcece8; padding: 3.5rem 0; }
+.atolliva-backlink-inner { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: space-between; }
+.atolliva-backlink-inner > div { max-width: 680px; }
+.atolliva-backlink-inner h2 { margin-top: .35rem; color: #17383c; font-size: 2.3rem; font-weight: 800; line-height: 1; }
+.atolliva-backlink-inner > div > p:last-child { margin-top: .7rem; color: #526e6d; line-height: 1.6; }
+@media (min-width: 760px) { .atolliva-intro-grid, .atolliva-partner-layout { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 4rem; }.atolliva-how-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; } }
+@media (max-width: 560px) { .atolliva-hero h1 { font-size: 3.2rem; }.atolliva-hero-content { padding-bottom: 3rem; }.atolliva-intro-grid h2, .atolliva-section-heading h2, .atolliva-partner-layout h2, .atolliva-how-section > .page-shell > h2 { font-size: 2rem; }.atolliva-backlink-inner h2 { font-size: 1.9rem; }.atolliva-backlink-inner .button { width: 100%; justify-content: center; } }

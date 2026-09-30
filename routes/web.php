@@ -28,6 +28,7 @@ Route::post('/newsletter-subscriptions', [NewsletterSubscriptionController::clas
 Route::view('/terms', 'legal.terms')->name('terms');
 Route::view('/privacy', 'legal.privacy')->name('privacy');
 Route::view('/himmafushi', 'island-guide')->name('island-guide');
+Route::view('/atolliva-maldives', 'atolliva')->name('atolliva');
 Route::view('/partner-with-us', 'partnerships.partner')->name('partner');
 Route::view('/list-your-guesthouse', 'partnerships.list-guesthouse')->name('list-guesthouse');
 Route::view('/packages', 'experiences.packages')->name('packages');
