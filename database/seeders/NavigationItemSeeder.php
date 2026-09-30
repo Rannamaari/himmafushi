@@ -15,9 +15,9 @@ class NavigationItemSeeder extends Seeder
             ['transfers', 'Transfers', 'transfers.index', 'transfers.*', 'dropdown', 'Travel made simple', 30, true],
             ['things-to-do', 'Things To Do', 'activities.index', 'activities.*', 'mega', 'Explore Himmafushi', 40, true],
             ['shops', 'Shops', 'shops.index', 'shops.*', 'link', null, 50, true],
-            ['wellness', 'Wellness', 'wellness.index', 'wellness.*', 'link', null, 60, true],
+            ['wellness', 'Wellness', 'wellness.index', 'wellness.*', 'link', null, 60, false],
             ['deals', 'Deals', 'deals.index', 'deals.*', 'link', null, 70, true],
-            ['atolliva-maldives', 'About Us', 'about', 'about', 'link', null, 80, true],
+            ['atolliva-maldives', 'About Us', 'about', 'about', 'link', null, 60, true],
             ['news', 'News', 'news.index', 'news.*', 'link', null, 90, false],
         ];
 
@@ -28,6 +28,8 @@ class NavigationItemSeeder extends Seeder
                 'show_in_desktop' => $desktop, 'show_in_mobile' => true, 'active' => true,
             ]);
         }
+
+        NavigationItem::where('key', 'wellness')->update(['show_in_mobile' => false]);
 
         $children = [
             'stay' => [['guest-houses', 'Guest Houses'], ['hotels', 'Hotels'], ['surf-camps', 'Surf Camps']],
